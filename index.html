@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ScheduleFlow - 社内スケジュール統合（開発中サンプル）</title>
-<link rel="stylesheet" href="css/launcher.css?v=1">
+<link rel="stylesheet" href="css/launcher.css?v=2">
 <style>
   :root{
     --acc:#dc2626; --acc2:#ef4444;
@@ -165,14 +165,14 @@
     <button class="btn" onclick="sfLogin()">サンプルとして入る（開発用）</button>
     <button class="btn ghost" disabled title="後日対応します">Google でログイン（後日対応）</button>
     <div class="note">これは構想段階の見せ方モックです。表示中のデータはすべてサンプル（架空）です。各アプリの予定をFirestoreから読んで重ねる統合ビューや、Claudeによる週次配車提案は、これから本実装します。</div>
-    <div class="ver">ScheduleFlow v0.2.0 (mock)</div>
+    <div class="ver">ScheduleFlow v0.2.1 (mock)</div>
   </div>
 </div>
 
 <div id="app">
   <!-- ===== トップバー ===== -->
   <div id="topbar">
-    <div class="logo"><span>📅</span><span><span class="sf">Schedule</span>Flow</span><span class="ver">v0.2.0</span></div>
+    <div class="logo"><span>📅</span><span><span class="sf">Schedule</span>Flow</span><span class="ver">v0.2.1</span></div>
     <span class="dev-badge">🚧 開発中サンプル</span>
     <div class="spacer"></div>
     <button class="tb-btn primary" onclick="alert('社内予定の追加は本実装フェーズ（Phase 1）で作ります。\n\n※他アプリの予定（納車・整備・納品）は各アプリ側で編集します。')">＋ 社内予定</button>
@@ -277,9 +277,9 @@
   </div>
 </div>
 
-<script src="js/launcher.js?v=1"></script>
+<script src="js/launcher.js?v=2"></script>
 <script>
-/* ScheduleFlow モック v0.2.0 — データはすべてサンプル */
+/* ScheduleFlow モック v0.2.1 — データはすべてサンプル */
 function sfLogin(){ try{localStorage.setItem('sf_authed','1')}catch(e){} document.getElementById('sf-login').style.display='none'; }
 function sfLogout(){ try{localStorage.removeItem('sf_authed')}catch(e){} document.getElementById('sf-login').style.display='flex'; }
 (function(){ let a=false; try{a=localStorage.getItem('sf_authed')==='1'}catch(e){} if(a)document.getElementById('sf-login').style.display='none'; })();
