@@ -271,7 +271,7 @@
     <div class="sub">MHS ─ 全社時間マスター・社内スケジュール（小林モータース）</div>
     <button class="btn" onclick="loginWithGoogle()">Google でログイン</button>
     <div class="note" id="login-msg">小林モータースの名簿（CoreFlow）に登録された方だけ入室できます。</div>
-    <div class="ver">MasterHub Schedule (MHS) v0.6.1</div>
+    <div class="ver">MasterHub Schedule (MHS) v0.7.0</div>
   </div>
 </div>
 
@@ -289,7 +289,7 @@
   <!-- ===== トップバー ===== -->
   <div id="topbar">
     <button class="sb-toggle" onclick="toggleSidebar()" title="サイドバーを開閉">☰</button>
-    <div class="logo"><span>📅</span><span><span class="sf">MasterHub</span> Schedule</span><span class="ver">v0.6.1</span></div>
+    <div class="logo"><span>📅</span><span><span class="sf">MasterHub</span> Schedule</span><span class="ver">v0.7.0</span></div>
     <div class="spacer"></div>
     <div class="tb-user"><span class="tb-av" id="u-av"></span><span class="tb-uname" id="me-name"></span></div>
     <button class="tb-btn primary" onclick="openEventForm()">＋ 社内予定</button>
@@ -596,7 +596,7 @@ function subscribeSchedule(){
   }, function(err){ console.error('[MHS] scheduleEvents購読エラー',err); toast('⚠ 予定の読込に失敗'); });
 }
 function schedSave(ev){
-  var data=Object.assign({},ev); delete data.id; delete data.source;
+  var data=Object.assign({},ev); delete data.id; delete data.source; delete data._occ;
   data.updatedAt=window.fb.serverTimestamp(); data.updatedBy=(window.fb.currentUser&&window.fb.currentUser.uid)||null;
   return scheduleCol().doc(ev.id).set(data,{merge:true}).catch(function(e){ console.error('[MHS] 保存失敗',e); toast('⚠ 保存に失敗（通信/権限）'); });
 }
@@ -616,10 +616,57 @@ function expandRecurring(start,end){
   }
   return out;
 }
-/* 範囲内の全イベント（サンプル＋ユーザー＋定期）をレイヤーで絞って返す */
+/* 社内予定の繰り返し（repeat）展開 */
+function repeatLabel(ev){
+  var r=ev&&ev.repeat; if(!r||!r.freq||r.freq==='none')return '';
+  var dn=['日','月','火','水','木','金','土'];
+  var anchor=ev.date?new Date(ev.date+'T00:00:00'):null;
+  var days=(r.days&&r.days.length)?r.days.slice().sort(function(a,b){return a-b;}).map(function(x){return dn[x];}).join('・'):(anchor?dn[anchor.getDay()]:'');
+  switch(r.freq){
+    case 'daily': return '毎日';
+    case 'weekday': return '平日（月〜金）';
+    case 'weekly': return '毎週 '+days;
+    case 'biweekly': return '隔週 '+days;
+    case 'monthlyDay': return '毎月'+(anchor?anchor.getDate():'')+'日';
+    case 'monthlyNth': return '毎月 第'+(anchor?nthOfMonth(anchor):'')+' '+(anchor?dn[anchor.getDay()]:'')+'曜';
+    default: return '';
+  }
+}
+function matchRepeat(r,anchor,d){
+  var dow=d.getDay();
+  switch(r.freq){
+    case 'daily': return true;
+    case 'weekday': return dow>=1&&dow<=5;
+    case 'weekly': return (r.days&&r.days.length)?(r.days.indexOf(dow)>=0):(dow===anchor.getDay());
+    case 'biweekly': { var wk=Math.round((startOfWeek(d).getTime()-startOfWeek(anchor).getTime())/(7*86400000)); var par=(((wk%2)+2)%2===0); var ok=(r.days&&r.days.length)?(r.days.indexOf(dow)>=0):(dow===anchor.getDay()); return par&&ok; }
+    case 'monthlyDay': return d.getDate()===anchor.getDate();
+    case 'monthlyNth': return dow===anchor.getDay() && nthOfMonth(d)===nthOfMonth(anchor);
+    default: return false;
+  }
+}
+function eventOccurrences(ev,start,end){
+  var r=ev.repeat;
+  if(!r||!r.freq||r.freq==='none'){ return (ev.date>=ymd(start)&&ev.date<=ymd(end))?[ev]:[]; }
+  var out=[]; var anchor=new Date(ev.date+'T00:00:00');
+  var from=new Date(Math.max(start.getTime(),anchor.getTime())); from.setHours(0,0,0,0);
+  var skip=r.skip||[];
+  for(var d=new Date(from); d<=end; d=addDays(d,1)){
+    var ds=ymd(d);
+    if(ds<ev.date) continue;
+    if(r.until && ds>r.until) break;
+    if(skip.indexOf(ds)>=0) continue;
+    if(matchRepeat(r,anchor,d)) out.push(Object.assign({},ev,{date:ds,_occ:true}));
+  }
+  return out;
+}
+/* 範囲内の全イベント（サンプル＋ユーザー＋繰り返し＋全社定期）をレイヤーで絞って返す */
 function getEvents(start,end){
   const s=ymd(start), e=ymd(end);
-  let list=EVENTS.concat(USER_EVENTS).filter(function(ev){return ev.date>=s&&ev.date<=e;});
+  let list=EVENTS.filter(function(ev){return ev.date>=s&&ev.date<=e;});
+  USER_EVENTS.forEach(function(ev){
+    if(ev.repeat && ev.repeat.freq && ev.repeat.freq!=='none'){ list=list.concat(eventOccurrences(ev,start,end)); }
+    else if(ev.date>=s && ev.date<=e){ list.push(ev); }
+  });
   list=list.concat(expandRecurring(start,end));
   return list.filter(function(ev){return layerOn[ev.layer];});
 }
@@ -660,9 +707,10 @@ function byTime(a,b){return (a.time>b.time?1:-1);}
 function jsAttr(js){ return js.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 function openEvAttr(e){ const j=JSON.stringify(e).replace(/\\/g,'\\\\').replace(/'/g,"\\'"); return jsAttr("event.stopPropagation();openEv('"+j+"')"); }
 function evChip(e,cls){
-  const manual=e.source==='manual';
+  const rep=!!(e.repeat&&e.repeat.freq&&e.repeat.freq!=='none');
+  const manual=e.source==='manual' && !rep;   // 繰り返しはドラッグ不可（1回だけ動かす概念がないため）
   const t=(e.time==='終日'||e.time==='—'?'':e.time);
-  return '<div class="'+cls+'" style="background:'+hexOf(e.layer)+'"'+(manual?' draggable="true" ondragstart="evDragStart(event,\''+escA(e.id)+'\')" ondragend="evDragEnd(event)"':'')+' onclick="'+openEvAttr(e)+'"><span class="et">'+t+'</span>'+dispTitle(e)+'</div>';
+  return '<div class="'+cls+'" style="background:'+hexOf(e.layer)+'"'+(manual?' draggable="true" ondragstart="evDragStart(event,\''+escA(e.id)+'\')" ondragend="evDragEnd(event)"':'')+' onclick="'+openEvAttr(e)+'"><span class="et">'+t+'</span>'+(rep?'🔁':'')+dispTitle(e)+'</div>';
 }
 function setCalMode(m){ calMode=m; document.querySelectorAll('#cal-mode-seg button').forEach(function(b){b.classList.toggle('active',b.dataset.m===m);}); renderCal(); }
 function calMove(n){
@@ -942,7 +990,12 @@ function openEv(json){
   document.getElementById('ev-title').textContent=dispTitle(e);
   let foot='';
   if(manual){
-    foot='<div style="margin-top:14px;display:flex;gap:8px"><button class="btn-ghost" onclick="editFromView()">✏️ 編集</button><button class="btn-del" onclick="deleteFromView()">🗑️ 削除</button></div>';
+    if(e.repeat&&e.repeat.freq&&e.repeat.freq!=='none'){
+      foot='<div style="margin-top:6px;font-size:11.5px;color:var(--text3)">🔁 繰り返し：'+esc(repeatLabel(e))+(e.repeat.until?'（〜'+e.repeat.until+'）':'')+'</div>'+
+        '<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn-ghost" onclick="editFromView()">✏️ シリーズを編集</button><button class="btn-del" onclick="deleteOccurrence()">🗑️ この回だけ</button><button class="btn-del" onclick="deleteFromView()">🗑️ 全部</button></div>';
+    } else {
+      foot='<div style="margin-top:14px;display:flex;gap:8px"><button class="btn-ghost" onclick="editFromView()">✏️ 編集</button><button class="btn-del" onclick="deleteFromView()">🗑️ 削除</button></div>';
+    }
   }else if(e.source==='recurring'){
     foot='<div class="fr" style="margin-top:8px;color:var(--text3);font-size:11.5px">※「行事・全社定期予定」（会社カレンダー設定）から自動表示。編集は設定画面で行います。</div>';
   }else if(e.layer!=='company'&&e.layer!=='deadline'){
@@ -963,14 +1016,17 @@ function openEv(json){
   document.getElementById('ev-modal').classList.add('show');
 }
 function closeEv(){document.getElementById('ev-modal').classList.remove('show');}
-function editFromView(){ closeEv(); openEventForm(curEv); }
-function deleteFromView(){ if(!curEv||!curEv.id)return; if(!confirm('この予定を削除しますか？'))return; schedDelete(curEv.id); closeEv(); toast('削除しました'); }
+function editFromView(){ var s=USER_EVENTS.find(function(x){return x.id===curEv.id;})||curEv; closeEv(); openEventForm(s); }
+function deleteFromView(){ if(!curEv||!curEv.id)return; var rep=curEv.repeat&&curEv.repeat.freq&&curEv.repeat.freq!=='none'; if(!confirm(rep?'この繰り返し予定を「すべて」削除しますか？':'この予定を削除しますか？'))return; schedDelete(curEv.id); closeEv(); toast('削除しました'); }
+function deleteOccurrence(){ if(!curEv||!curEv.id)return; var s=USER_EVENTS.find(function(x){return x.id===curEv.id;}); if(!s){ schedDelete(curEv.id); closeEv(); return; } if(!confirm(curEv.date+' の回だけ非表示にしますか？（他の回は残ります）'))return; s.repeat=s.repeat||{}; s.repeat.skip=(s.repeat.skip||[]).slice(); if(s.repeat.skip.indexOf(curEv.date)<0)s.repeat.skip.push(curEv.date); schedSave(s); closeEv(); toast('この回だけ非表示にしました'); }
 
 /* ---------- 社内予定 追加/編集フォーム ---------- */
 let EF=null;
 function openEventForm(ev, presetDate){
-  EF = ev ? JSON.parse(JSON.stringify(ev)) : {layer:'company',kind:'all',dept:'',prefix:'',title:'',date:presetDate||ymd(TODAY),time:'',allDay:false,who:[],place:'',vehicle:'',tags:[],memo:'',source:'manual'};
+  EF = ev ? JSON.parse(JSON.stringify(ev)) : {layer:'company',kind:'all',dept:'',prefix:'',title:'',date:presetDate||ymd(TODAY),time:'',allDay:false,who:[],place:'',vehicle:'',tags:[],memo:'',source:'manual',repeat:null};
   if(!EF.who)EF.who=[]; if(!EF.tags)EF.tags=[];
+  if(!EF.repeat||!EF.repeat.freq) EF.repeat={freq:'none',days:[],until:'',skip:(EF.repeat&&EF.repeat.skip)||[]};
+  if(!EF.repeat.days)EF.repeat.days=[];
   if(EF.layer!=='company'&&EF.layer!=='deadline')EF.layer='company';
   if(EF.time==='終日'){EF.allDay=true;EF.time='';}
   if(EF.time==='—'||EF.time==null)EF.time='';
@@ -989,6 +1045,9 @@ function renderEventForm(){
   const whoPick=STAFF.map(function(s){return pickHTML('who',s,s,EF.who.indexOf(s)>=0);}).join('');
   const tagPick=TAGS.map(function(t){return pickHTML('tag',t,t,EF.tags.indexOf(t)>=0);}).join('');
   const placeOpts=PLACES.map(function(p){return '<option value="'+p+'">';}).join('');
+  const repeatPick=[['none','なし'],['daily','毎日'],['weekday','平日'],['weekly','毎週'],['biweekly','隔週'],['monthlyDay','毎月(日)'],['monthlyNth','毎月(第n曜)']].map(function(a){return pickHTML('repeat',a[0],a[1],EF.repeat.freq===a[0]);}).join('');
+  const DOWJ=['日','月','火','水','木','金','土'];
+  const rdayPick=DOWJ.map(function(d,x){return pickHTML('rday',String(x),d,EF.repeat.days.indexOf(x)>=0);}).join('');
   b.innerHTML=
     '<div class="fld"><label>種類</label><div class="seg-pick" id="g-layer">'+layerPick+'</div></div>'+
     '<div class="fld" id="row-kind"'+(EF.layer!=='company'?' style="display:none"':'')+'><label>階層</label><div class="seg-pick" id="g-kind">'+kindPick+'</div></div>'+
@@ -1001,6 +1060,9 @@ function renderEventForm(){
     '<div class="fld"><label>担当</label><div class="seg-pick" id="g-who">'+whoPick+'</div></div>'+
     '<div class="fld"><label>場所</label><input type="text" id="ef-place" list="ef-places" value="'+esc(EF.place||'')+'" placeholder="例：本社 / 陸運局A"><datalist id="ef-places">'+placeOpts+'</datalist></div>'+
     '<div class="fld"><label>タグ</label><div class="seg-pick" id="g-tag">'+tagPick+'</div></div>'+
+    '<div class="fld"><label>🔁 繰り返し</label><div class="seg-pick" id="g-repeat">'+repeatPick+'</div></div>'+
+    '<div class="fld" id="row-rdays"'+((EF.repeat.freq==='weekly'||EF.repeat.freq==='biweekly')?'':' style="display:none"')+'><label>曜日（複数可・未選択なら開始日の曜日）</label><div class="seg-pick" id="g-rday">'+rdayPick+'</div></div>'+
+    '<div class="fld" id="row-runtil"'+((EF.repeat.freq&&EF.repeat.freq!=='none')?'':' style="display:none"')+'><label>繰り返し終了日（任意・空ならずっと）</label><input type="date" id="ef-runtil" value="'+esc(EF.repeat.until||'')+'"></div>'+
     '<div class="fld"><label>メモ</label><textarea id="ef-memo" placeholder="補足・連絡先・持ち物など">'+esc(EF.memo||'')+'</textarea></div>';
   efClosedNote();
 }
@@ -1012,6 +1074,8 @@ function efPick(group,val,el){
   else if(group==='dept'){ EF.dept=val; setOnly('g-dept',el); }
   else if(group==='who'){ toggleArr(EF.who,val); el.classList.toggle('on'); }
   else if(group==='tag'){ toggleArr(EF.tags,val); el.classList.toggle('on'); }
+  else if(group==='repeat'){ EF.repeat.freq=val; setOnly('g-repeat',el); document.getElementById('row-rdays').style.display=(val==='weekly'||val==='biweekly')?'':'none'; document.getElementById('row-runtil').style.display=(val&&val!=='none')?'':'none'; }
+  else if(group==='rday'){ toggleArr(EF.repeat.days,(+val)); el.classList.toggle('on'); }
 }
 function efClosedNote(){
   const dv=document.getElementById('ef-date'), n=document.getElementById('ef-closednote'); if(!dv||!n)return;
@@ -1032,6 +1096,9 @@ function saveEventForm(){
   EF.memo=document.getElementById('ef-memo').value.trim();
   EF.source='manual';
   if(EF.layer!=='company'){ EF.kind='all'; EF.dept=''; }
+  var rf=(EF.repeat&&EF.repeat.freq)||'none';
+  if(rf==='none'){ EF.repeat=null; }
+  else { EF.repeat={freq:rf, days:((EF.repeat&&EF.repeat.days)||[]).slice(), until:(document.getElementById('ef-runtil')||{}).value||'', skip:((EF.repeat&&EF.repeat.skip)||[])}; }
   if(!EF.id) EF.id='e'+Date.now()+Math.floor(Math.random()*1000);
   schedSave(EF); closeEf(); toast('保存しました');
 }
