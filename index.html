@@ -96,7 +96,8 @@
   .cell:nth-child(7n+1){border-left:0}
   .cell.other{background:rgba(127,127,127,.05)}
   .cell .dnum{font-size:12px;color:var(--text2);font-weight:600}
-  .cell.today .dnum{background:var(--acc);color:#fff;border-radius:50%;width:21px;height:21px;display:inline-flex;align-items:center;justify-content:center}
+  .cell.sat .dnum{color:#60a5fa}
+  .cell.sun .dnum{color:#f87171}
   .ev{margin-top:3px;font-size:11px;line-height:1.3;padding:2px 6px;border-radius:5px;color:#fff;cursor:pointer;
     white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .ev:hover{filter:brightness(1.12)}
@@ -106,6 +107,7 @@
   /* 定休/祝日表示 */
   .cell.closed{background:repeating-linear-gradient(45deg, rgba(120,120,120,.10), rgba(120,120,120,.10) 7px, transparent 7px, transparent 14px)}
   .cell.holiday .dnum{color:#dc2626}
+  .cell.today .dnum{background:var(--acc);color:#fff;border-radius:50%;width:21px;height:21px;display:inline-flex;align-items:center;justify-content:center}
   .cell .hol-name{font-size:9px;color:#dc2626;font-weight:600;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
   .cell .closed-badge{position:absolute;top:5px;right:6px;font-size:9px;font-weight:700;color:var(--text3);background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:0 5px}
 
@@ -276,7 +278,7 @@
     <div class="sub">MHS ─ 全社時間マスター・社内スケジュール（小林モータース）</div>
     <button class="btn" onclick="loginWithGoogle()">Google でログイン</button>
     <div class="note" id="login-msg">小林モータースの名簿（CoreFlow）に登録された方だけ入室できます。</div>
-    <div class="ver">MasterHub Schedule (MHS) v0.8.0</div>
+    <div class="ver">MasterHub Schedule (MHS) v0.8.1</div>
   </div>
 </div>
 
@@ -294,7 +296,7 @@
   <!-- ===== トップバー ===== -->
   <div id="topbar">
     <button class="sb-toggle" onclick="toggleSidebar()" title="サイドバーを開閉">☰</button>
-    <div class="logo"><span>📅</span><span><span class="sf">MasterHub</span> Schedule</span><span class="ver">v0.8.0</span></div>
+    <div class="logo"><span>📅</span><span><span class="sf">MasterHub</span> Schedule</span><span class="ver">v0.8.1</span></div>
     <div class="spacer"></div>
     <div class="tb-user"><span class="tb-av" id="u-av"></span><span class="tb-uname" id="me-name"></span></div>
     <button class="tb-btn primary" onclick="openEventForm()">＋ 社内予定</button>
@@ -762,7 +764,7 @@ function renderMonthGrid(){
     const d=addDays(start,i), key=ymd(d), inMonth=d.getMonth()===cur.getMonth();
     const isToday=key===ymd(TODAY), hol=holName(key), ev=evalDay(key,d);
     const evs=(byDate[key]||[]).sort(byTime);
-    h+='<div class="cell'+(inMonth?'':' other')+(isToday?' today':'')+(ev.closed?' closed':'')+(hol?' holiday':'')+'" data-date="'+key+'" ondragover="cellDragOver(event)" ondragleave="cellDragLeave(event)" ondrop="cellDrop(event,\''+key+'\')" onmouseenter="dayPopShow(event,\''+key+'\')" onmouseleave="dayPopHide()">';
+    h+='<div class="cell'+(inMonth?'':' other')+(d.getDay()===0?' sun':(d.getDay()===6?' sat':''))+(isToday?' today':'')+(ev.closed?' closed':'')+(hol?' holiday':'')+'" data-date="'+key+'" ondragover="cellDragOver(event)" ondragleave="cellDragLeave(event)" ondrop="cellDrop(event,\''+key+'\')" onmouseenter="dayPopShow(event,\''+key+'\')" onmouseleave="dayPopHide()">';
     h+='<div class="dnum">'+d.getDate()+'</div>';
     if(ev.closed) h+='<div class="closed-badge">休</div>';
     else if(ev.openWin) h+='<div class="closed-badge" style="color:#16a34a;border-color:rgba(22,163,74,.4)">営</div>';
