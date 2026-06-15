@@ -152,38 +152,147 @@
   .mbody .fr{display:flex;gap:8px;padding:6px 0;font-size:13px}
   .mbody .fr .k{color:var(--text3);min-width:74px}
   .mbody .lbl{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:3px 9px;border-radius:999px;color:#fff}
+
+  /* 予定フォーム */
+  .mbox.wide{width:min(94vw,520px)}
+  .mbody.scroll{max-height:68vh;overflow-y:auto}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media(max-width:480px){.row2{grid-template-columns:1fr}}
+  .fld{margin-bottom:12px}
+  .fld>label{display:block;font-size:12px;color:var(--text2);margin-bottom:5px;font-weight:600}
+  .fld input[type=text],.fld input[type=date],.fld input[type=time],.fld textarea{width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:8px 10px;font-size:13px;font-family:inherit}
+  .fld textarea{min-height:54px;resize:vertical}
+  .seg-pick{display:flex;gap:6px;flex-wrap:wrap}
+  .pick{font-size:12.5px;padding:6px 11px;border-radius:999px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);cursor:pointer;user-select:none}
+  .pick:hover{border-color:var(--acc)}
+  .pick.on{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:600}
+  .mfoot{padding:12px 16px;border-top:1px solid var(--border);display:flex;gap:8px;align-items:center}
+  .mfoot .grow{flex:1}
+  .btn-save{background:var(--acc);border:0;color:#fff;border-radius:8px;padding:9px 20px;font-size:14px;font-weight:700;cursor:pointer}
+  .btn-save:hover{background:var(--acc2)}
+  .btn-del{background:none;border:1px solid rgba(220,38,38,.5);color:#f87171;border-radius:8px;padding:9px 14px;font-size:13px;cursor:pointer}
+  .btn-del:hover{background:rgba(220,38,38,.1)}
+  .btn-ghost{background:var(--bg3);border:1px solid var(--border);color:var(--text2);border-radius:8px;padding:9px 14px;font-size:13px;cursor:pointer}
+  .btn-ghost:hover{border-color:var(--acc)}
+
+  /* 月カレンダーの＋追加 */
+  .cell:hover{background:rgba(220,38,38,.04)}
+  .daycell-add{position:absolute;bottom:4px;right:5px;font-size:13px;line-height:16px;text-align:center;color:var(--text2);opacity:0;cursor:pointer;background:var(--bg3);border:1px solid var(--border);border-radius:5px;width:19px;height:19px}
+  .daycell-add:hover{background:var(--acc);color:#fff;border-color:var(--acc)}
+  .cell:hover .daycell-add{opacity:1}
+
+  /* 定期予定リスト */
+  .rec-row{display:flex;align-items:center;gap:8px;padding:9px 0;border-top:1px solid var(--border);font-size:13px}
+  .rec-row:first-child{border-top:0}
+  .rec-row .rt{flex:1}
+  .rec-row .rb{font-size:11px;color:var(--text3);margin-left:6px}
+  .rec-x{background:none;border:1px solid rgba(220,38,38,.4);color:#f87171;border-radius:6px;cursor:pointer;font-size:12px;padding:2px 8px}
+  .rec-x:hover{background:rgba(220,38,38,.1)}
+
+  /* カレンダー 月/週/日 切替 */
+  .cal-host-pad{margin-top:2px}
+  /* 週ビュー */
+  .cal-wk{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+  .wkcol{background:var(--bg2);border:1px solid var(--border);border-radius:10px;min-height:170px;display:flex;flex-direction:column;overflow:hidden}
+  .wkcol.today{outline:2px solid var(--acc)}
+  .wkcol.closed{background:repeating-linear-gradient(45deg,rgba(120,120,120,.10),rgba(120,120,120,.10) 7px,transparent 7px,transparent 14px)}
+  .wkcol-h{padding:6px 8px;font-size:12px;font-weight:700;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:5px;background:var(--bg3)}
+  .wkcol-h .sun{color:#f87171}.wkcol-h .sat{color:#60a5fa}
+  .wkcol-h .hn{font-size:9px;color:#dc2626;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .wkcol-h .cb{margin-left:auto;font-size:9px;color:var(--text3);background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:0 5px}
+  .wkcol-h .ob{margin-left:auto;font-size:9px;color:#16a34a;background:var(--bg2);border:1px solid rgba(22,163,74,.4);border-radius:4px;padding:0 5px}
+  .wkcol-body{padding:6px;display:flex;flex-direction:column;gap:4px;flex:1}
+  .wkcol-add{font-size:11px;color:var(--text3);text-align:center;padding:3px;cursor:pointer;border:1px dashed var(--border);border-radius:6px;margin-top:auto}
+  .wkcol-add:hover{border-color:var(--acc);color:var(--acc)}
+  .wev{font-size:11px;line-height:1.3;padding:3px 6px;border-radius:5px;color:#fff;cursor:pointer}
+  .wev .et{opacity:.85;font-weight:700;margin-right:3px}
+  /* 日ビュー */
+  .dayview{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+  .dv-h{padding:11px 14px;border-bottom:1px solid var(--border);font-weight:700;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .dv-h .cb{font-size:11px;color:var(--text3);background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:1px 8px}
+  .dv-h .ob{font-size:11px;color:#16a34a;background:var(--bg3);border:1px solid rgba(22,163,74,.4);border-radius:5px;padding:1px 8px}
+  .dv-row{display:flex;gap:12px;padding:10px 14px;border-top:1px solid var(--border);align-items:flex-start;cursor:pointer}
+  .dv-row:hover{background:var(--bg3)}
+  .dv-tm{font-size:13px;font-weight:700;color:var(--text2);min-width:64px}
+  .dv-bd{flex:1}
+  .dv-tag{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:middle}
+  .dv-add{margin:12px 14px;padding:9px;border:1px dashed var(--border);border-radius:8px;color:var(--text3);text-align:center;cursor:pointer;font-size:13px}
+  .dv-add:hover{border-color:var(--acc);color:var(--acc)}
+  /* ドラッグ */
+  .ev[draggable=true],.wev[draggable=true]{cursor:grab}
+  .drag-over{outline:2px dashed var(--acc)!important;outline-offset:-2px;background:rgba(220,38,38,.06)!important}
+  .dragging{opacity:.4}
+  /* ホバー全件ポップ */
+  #day-pop{position:fixed;z-index:300;min-width:200px;max-width:320px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;box-shadow:0 12px 30px rgba(0,0,0,.45);padding:9px;display:none}
+  #day-pop.show{display:block}
+  #day-pop .pop-h{font-size:11px;color:var(--text3);font-weight:700;padding:1px 4px 7px;border-bottom:1px solid var(--border);margin-bottom:6px}
+  #day-pop .pop-ev{font-size:11.5px;padding:3px 8px;border-radius:5px;color:#fff;margin-bottom:3px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  #day-pop .pop-ev:last-child{margin-bottom:0}
+
+  /* 休業ルール */
+  .rule-row{display:flex;align-items:center;gap:7px;padding:9px 0;border-top:1px solid var(--border);flex-wrap:wrap}
+  .rule-row:first-child{border-top:0}
+  .rule-row.off{opacity:.5}
+  .rule-row select,.rule-row input[type=date],.rule-row input[type=text]{background:var(--bg3);border:1px solid var(--border);color:var(--text);border-radius:7px;padding:5px 8px;font-size:12.5px;font-family:inherit}
+  .rule-row input[type=text]{flex:1;min-width:120px}
+  .rule-no{width:20px;height:20px;border-radius:50%;background:var(--bg4);color:var(--text2);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none}
+  .rule-eff{font-size:11px;font-weight:700;border-radius:6px;padding:2px 8px}
+  .rule-eff.close{color:#f87171;background:rgba(220,38,38,.12)}
+  .rule-eff.open{color:#16a34a;background:rgba(22,163,74,.12)}
+  .rule-eff.memo{color:#eab308;background:rgba(234,179,8,.12)}
+  .rule-del{background:none;border:1px solid var(--border);color:var(--text3);border-radius:6px;cursor:pointer;font-size:12px;padding:3px 7px}
+  .rule-del:hover{border-color:#f87171;color:#f87171}
+  .rule-presets{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+  .rule-prev{margin-top:12px;background:var(--bg3);border:1px solid var(--border);border-radius:9px;padding:10px 12px;font-size:12px;line-height:1.7}
+  .rule-prev b{color:var(--acc2)}
+  .rule-prev .pd{display:inline-block;background:rgba(220,38,38,.12);color:#f87171;border-radius:5px;padding:1px 7px;margin:2px 3px 0 0;font-size:11.5px;font-weight:600}
+  .rule-prev .po{display:inline-block;background:rgba(22,163,74,.12);color:#37d39a;border-radius:5px;padding:1px 7px;margin:2px 3px 0 0;font-size:11.5px;font-weight:600}
+
+  /* トースト */
+  #sf-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--acc);color:#fff;padding:10px 20px;border-radius:999px;font-size:13px;font-weight:600;opacity:0;transition:.2s;z-index:500;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+  #sf-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 </style>
 </head>
 <body>
 
-<!-- ===== サンプルログイン ===== -->
+<!-- ===== ログイン（Google・本番） ===== -->
 <div id="sf-login">
   <div class="lc">
     <div class="lg">📅 <span class="sf">MasterHub</span> Schedule</div>
-    <div class="sub">MHS ─ 全社時間マスター・社内スケジュール統合（小林モータース）</div>
-    <div class="badge dev-badge">🚧 開発中サンプル</div>
-    <button class="btn" onclick="sfLogin()">サンプルとして入る（開発用）</button>
-    <button class="btn ghost" disabled title="後日対応します">Google でログイン（後日対応）</button>
-    <div class="note">これは構想段階の見せ方モックです。表示中のデータはすべてサンプル（架空）です。各アプリの予定をFirestoreから読んで重ねる統合ビューや、Claudeによる週次配車提案は、これから本実装します。</div>
-    <div class="ver">MasterHub Schedule (MHS) v0.3.0 (mock)</div>
+    <div class="sub">MHS ─ 全社時間マスター・社内スケジュール（小林モータース）</div>
+    <button class="btn" onclick="loginWithGoogle()">Google でログイン</button>
+    <div class="note" id="login-msg">小林モータースの名簿（CoreFlow）に登録された方だけ入室できます。</div>
+    <div class="ver">MasterHub Schedule (MHS) v0.6.0</div>
   </div>
 </div>
 
-<div id="app">
+<!-- ===== 権限なし ===== -->
+<div id="mhs-denied" style="position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;background:radial-gradient(1200px 600px at 50% -10%,#3a1414 0%,#160c0d 55%,#0e0a0a 100%)">
+  <div style="width:min(92vw,380px);background:rgba(28,18,18,.9);border:1px solid rgba(220,38,38,.35);border-radius:16px;padding:30px 26px;text-align:center;color:#f0e6e6;box-shadow:0 20px 60px rgba(0,0,0,.5)">
+    <div style="font-size:24px;font-weight:800">🔒 権限がありません</div>
+    <div style="margin-top:10px;font-size:13px;color:#c39a9a;line-height:1.6">このGoogleアカウントは小林モータースの名簿（CoreFlow）に登録されていません。</div>
+    <button onclick="doLogout()" style="margin-top:18px;width:100%;padding:11px;border:1px solid rgba(195,154,154,.4);border-radius:10px;background:transparent;color:#e8d6d6;font-size:14px;font-weight:600;cursor:pointer">別のアカウントでログイン</button>
+    <div style="margin-top:14px;font-size:11.5px;color:#9a7d7d;line-height:1.6">入室できない場合は管理者（ゆうた）にCoreFlowメンバー登録を依頼してください。</div>
+  </div>
+</div>
+
+<div id="app" style="display:none">
   <!-- ===== トップバー ===== -->
   <div id="topbar">
-    <div class="logo"><span>📅</span><span><span class="sf">MasterHub</span> Schedule</span><span class="ver">MHS v0.3.0</span></div>
-    <span class="dev-badge">🚧 開発中サンプル</span>
+    <div class="logo"><span>📅</span><span><span class="sf">MasterHub</span> Schedule</span><span class="ver">MHS v0.6.0</span></div>
+    <span class="dev-badge" style="background:repeating-linear-gradient(45deg,#1db97a,#1db97a 8px,#159b66 8px,#159b66 16px)">本番接続（β）</span>
     <div class="spacer"></div>
-    <button class="tb-btn primary" onclick="alert('社内予定の追加は本実装フェーズ（Phase 1）で作ります。\n\n※他アプリの予定（納車・整備・納品）は各アプリ側で編集します。')">＋ 社内予定</button>
+    <span id="me-name" style="font-size:12px;color:var(--text2);margin-right:4px"></span>
+    <button class="tb-btn primary" onclick="openEventForm()">＋ 社内予定</button>
     <button class="theme-toggle" onclick="toggleTheme()" title="テーマ切替">🌙</button>
+    <button class="tb-btn" onclick="doLogout()" title="ログアウト">⏻</button>
   </div>
 
   <!-- ===== サイドバー ===== -->
   <div id="sidebar">
     <div class="si-title">ビュー</div>
     <div class="si-item active" data-v="brief" onclick="showView('brief')"><span class="ic">🌅</span><span>朝礼カード</span></div>
-    <div class="si-item" data-v="month" onclick="showView('month')"><span class="ic">🗓️</span><span>月カレンダー</span></div>
+    <div class="si-item" data-v="month" onclick="showView('month')"><span class="ic">🗓️</span><span>カレンダー</span></div>
     <div class="si-item" data-v="axis" onclick="showView('axis')"><span class="ic">🔀</span><span>多軸ビュー</span></div>
     <div class="si-title">マスター</div>
     <div class="si-item" data-v="calset" onclick="showView('calset')"><span class="ic">⚙️</span><span>会社カレンダー設定</span></div>
@@ -207,20 +316,23 @@
       </div>
     </section>
 
-    <!-- 月カレンダー -->
+    <!-- カレンダー（月/週/日） -->
     <section id="view-month" class="view">
       <div class="vhead">
-        <div class="vtitle">🗓️ 月カレンダー</div>
-        <button class="vh-btn" onclick="moveMonth(-1)">◀</button>
-        <span id="month-label" style="font-weight:700;min-width:130px;text-align:center"></span>
-        <button class="vh-btn" onclick="moveMonth(1)">▶</button>
-        <button class="vh-btn" onclick="goThisMonth()">今月</button>
+        <div class="vtitle">🗓️ カレンダー</div>
+        <div class="seg" id="cal-mode-seg">
+          <button data-m="month" class="active">月</button>
+          <button data-m="week">週</button>
+          <button data-m="day">日</button>
+        </div>
+        <button class="vh-btn" onclick="calMove(-1)">◀</button>
+        <span id="cal-label" style="font-weight:700;min-width:150px;text-align:center"></span>
+        <button class="vh-btn" onclick="calMove(1)">▶</button>
+        <button class="vh-btn" onclick="calToday()">今日</button>
       </div>
       <div class="layers" id="layers-month" style="margin-bottom:12px"></div>
-      <div class="cal">
-        <div class="cal-dow"><div class="sun">日</div><div>月</div><div>火</div><div>水</div><div>木</div><div>金</div><div class="sat">土</div></div>
-        <div class="cal-grid" id="cal-grid"></div>
-      </div>
+      <p style="font-size:12px;color:var(--text3);margin:0 0 10px">予定は<b>ドラッグで別の日へ移動</b>（社内予定のみ）。月ビューはセルに<b>マウスを乗せるとその日の全件</b>を表示。各日の「＋」から追加。</p>
+      <div id="cal-host" class="cal-host-pad"></div>
     </section>
 
     <!-- 多軸ビュー -->
@@ -255,14 +367,14 @@
     <section id="view-about" class="view">
       <div class="vhead"><div class="vtitle">ℹ️ このモックについて</div></div>
       <div class="note-card">
-        <h4>🚧 開発中サンプル（構想段階モック）</h4>
-        <p>MasterHub Schedule（MHS・通称マス）は「社内カレンダー（チームウェア代替）＋全アプリの予定を俯瞰で重ねる統合ビュー＋Claudeによる週次配車提案」を1本にした“会社の段取りハブ”です。命名階層では<b>最上級（全アプリが従う時間の基準マスター）</b>に位置します（旧名：ScheduleFlow）。これはその<b>見せ方を共有するためのモック</b>で、表示データはすべてサンプル（架空）です。<br><br>
+        <h4>📅 MasterHub Schedule（MHS・通称マス）</h4>
+        <p>「社内カレンダー（チームウェア代替）＋全アプリの予定を俯瞰で重ねる統合ビュー＋Claudeによる週次配車提案」を1本にした“会社の段取りハブ”です。命名階層では<b>最上級（全アプリが従う時間の基準マスター）</b>に位置します（旧名：ScheduleFlow）。<br><br>
         役割分担の鉄則：<b>編集は各アプリで完結</b>（納車＝CarFlow／整備＝PitFlow／納品＝StockFlow）。MHS は<b>俯瞰閲覧＋社内予定の編集＋会社カレンダーのマスター管理</b>を担います。</p>
       </div>
       <div class="note-card devtools">
-        <h4>開発用</h4>
-        <p>このモックはデータベース未接続です。ログイン状態と会社カレンダー設定だけブラウザに記憶しています。</p>
-        <button onclick="sfLogout()">↩️ ログアウト（サンプル）</button>
+        <h4>接続状況</h4>
+        <p>本番接続（β）。Firebase（carflow-9d500 相乗り）に接続し、社内予定は <code>scheduleEvents</code>、会社カレンダーは <code>settings/mhsCompanyCalendar</code> に保存。入室は CoreFlow 名簿（portalMembers）で判定します。他アプリ（CarFlow/PitFlow/StockFlow）の予定重ね合わせと AI配車提案は今後の実装です。</p>
+        <button onclick="doLogout()">⏻ ログアウト</button>
       </div>
     </section>
 
@@ -277,12 +389,95 @@
   </div>
 </div>
 
+<!-- ホバー全件ポップ -->
+<div id="day-pop" onmouseenter="dayPopHold(true)" onmouseleave="dayPopHold(false)"></div>
+
+<!-- 社内予定 追加/編集モーダル -->
+<div class="mbg" id="ef-modal" onclick="if(event.target.id==='ef-modal')closeEf()">
+  <div class="mbox wide">
+    <div class="mhead"><span class="mt" id="ef-title">社内予定を追加</span><button class="x" onclick="closeEf()">✕</button></div>
+    <div class="mbody scroll" id="ef-body"></div>
+    <div class="mfoot">
+      <button class="btn-del" id="ef-del" style="display:none" onclick="deleteEvent()">🗑️ 削除</button>
+      <div class="grow"></div>
+      <button class="btn-ghost" onclick="closeEf()">キャンセル</button>
+      <button class="btn-save" onclick="saveEventForm()">保存</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
+<script src="js/firebase-init.js?v=1"></script>
 <script src="js/launcher.js?v=4"></script>
 <script>
-/* MasterHub Schedule (MHS・旧ScheduleFlow) モック v0.3.0 — データはすべてサンプル */
-function sfLogin(){ try{localStorage.setItem('sf_authed','1')}catch(e){} document.getElementById('sf-login').style.display='none'; }
-function sfLogout(){ try{localStorage.removeItem('sf_authed')}catch(e){} document.getElementById('sf-login').style.display='flex'; }
-(function(){ let a=false; try{a=localStorage.getItem('sf_authed')==='1'}catch(e){} if(a)document.getElementById('sf-login').style.display='none'; })();
+/* MasterHub Schedule (MHS) v0.6.0 — 本番接続（Firebase / carflow-9d500 相乗り）。
+   社内予定＝companies/kobayashi_motors/scheduleEvents、会社カレンダーマスター＝settings/mhsCompanyCalendar。
+   入室判定＝CoreFlow名簿(portalMembers)。編集は各アプリ完結／MHSは社内予定＋会社カレンダーの編集と俯瞰。 */
+const COMPANY_ID='kobayashi_motors';
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function escA(s){return String(s==null?'':s).replace(/\\/g,'\\\\').replace(/'/g,"\\'");}
+function toast(msg){let t=document.getElementById('sf-toast'); if(!t){t=document.createElement('div');t.id='sf-toast';document.body.appendChild(t);} t.textContent=msg; t.className='show'; clearTimeout(toast._t); toast._t=setTimeout(function(){t.className='';},1600);}
+function _normEmail(s){ try{return String(s||'').normalize('NFKC').trim().toLowerCase();}catch(e){return String(s||'').trim().toLowerCase();} }
+
+/* ---------- 認証（Google）＋ CoreFlow名簿入室 ---------- */
+function loginWithGoogle(){
+  if(!window.fb||!window.fb.auth){ document.getElementById('login-msg').textContent='接続準備中です。少し待って再度お試しください。'; return; }
+  var p=new firebase.auth.GoogleAuthProvider();
+  window.fb.auth.signInWithPopup(p).catch(function(err){
+    console.error('[MHS login]',err);
+    document.getElementById('login-msg').textContent=(err&&err.code==='auth/unauthorized-domain')?'このURLがFirebaseに未登録です（承認済みドメインの設定が必要）。':'ログインに失敗しました。もう一度お試しください。';
+  });
+}
+function doLogout(){ if(window.fb&&window.fb.auth)window.fb.auth.signOut(); else location.reload(); }
+function showLoginScreen(){ document.getElementById('sf-login').style.display='flex'; document.getElementById('mhs-denied').style.display='none'; document.getElementById('app').style.display='none'; }
+function showDeniedScreen(){ document.getElementById('sf-login').style.display='none'; document.getElementById('mhs-denied').style.display='flex'; document.getElementById('app').style.display='none'; }
+async function checkAccess(user){
+  try{
+    var coll=window.fb.db.collection('companies').doc(COMPANY_ID).collection('portalMembers');
+    var doc=await coll.doc(user.uid).get();
+    if(doc.exists){ var d=doc.data(); if(d.active!==false){ d.id=doc.id; return d; } }
+    if(user.email){
+      var emailLower=_normEmail(user.email);
+      try{
+        var snap=await coll.where('email','==',user.email).limit(1).get();
+        if(!snap.empty){ var d2=snap.docs[0].data(); if(d2.active!==false){ d2.id=snap.docs[0].id; return d2; } }
+        if(emailLower!==user.email){
+          snap=await coll.where('email','==',emailLower).limit(1).get();
+          if(!snap.empty){ var d3=snap.docs[0].data(); if(d3.active!==false){ d3.id=snap.docs[0].id; return d3; } }
+        }
+        var all=await coll.limit(100).get(); var matched=null;
+        all.forEach(function(s){ if(matched)return; var e=_normEmail(String((s.data()||{}).email||'')); if(e&&e===emailLower)matched=s; });
+        if(matched){ var d4=matched.data(); if(d4.active!==false){ d4.id=matched.id; return d4; } }
+      }catch(e2){ console.warn('[MHS] email検索エラー（ルールが古い可能性）',e2); }
+    }
+    return null;
+  }catch(e){ console.error('[MHS] checkAccess失敗',e); return null; }
+}
+async function enterApp(member,user){
+  document.getElementById('sf-login').style.display='none';
+  document.getElementById('mhs-denied').style.display='none';
+  document.getElementById('app').style.display='grid';
+  var nm=(member&&member.name)||user.displayName||user.email||'ユーザー';
+  var me=document.getElementById('me-name'); if(me)me.textContent=nm;
+  try{ await window.fb.db.collection('companies').doc(COMPANY_ID).collection('userPrefs').doc(user.uid).set({memberId:member.id, memberEmail:(member.email||user.email||'')},{merge:true}); }catch(e){ console.warn('[MHS] userPrefs記録失敗',e); }
+  await loadCalRemote();
+  subscribeSchedule();
+  renderLayers('layers-month'); renderLayers('layers-axis');
+  showView('brief');
+}
+function wireAuth(){
+  if(!window.fb||!window.fb.auth){ var lm=document.getElementById('login-msg'); if(lm)lm.textContent='接続の準備に失敗しました。再読み込みしてください。'; return; }
+  window.fb.auth.onAuthStateChanged(async function(user){
+    if(!user){ window.fb.currentUser=null; window.fb.currentMember=null; showLoginScreen(); return; }
+    window.fb.currentUser=user;
+    var member=await checkAccess(user);
+    var mhsOff = member && member.mhs && member.mhs.on===false;   // CoreFlowメンバー設定でMHSをOFFにした人は弾く（既定はON＝default-allow）
+    if(member && !mhsOff){ window.fb.currentMember=member; await enterApp(member,user); }
+    else { await window.fb.auth.signOut().catch(function(){}); showDeniedScreen(); }
+  });
+}
 
 function toggleTheme(){
   const r=document.documentElement, cur=r.getAttribute('data-theme')||'dark', nx=cur==='dark'?'light':'dark';
@@ -318,44 +513,105 @@ const SF_HOL={map:{}};
 const holName=s=>SF_HOL.map[s]||null;
 
 /* 会社カレンダー設定（マスター・将来は共有Firestoreへ） */
-const CAL_DEFAULT={closedDow:[],holidaysClosed:false,closedDates:[],openDates:[]};
-function loadCal(){ try{const o=JSON.parse(localStorage.getItem('sf_company_calendar')||'null'); if(o)return Object.assign({},CAL_DEFAULT,o);}catch(e){} return Object.assign({},CAL_DEFAULT); }
-let CAL=loadCal();
-function saveCal(){ try{localStorage.setItem('sf_company_calendar',JSON.stringify(CAL));}catch(e){} }
-function isClosedDay(dateStr,dateObj){
-  if(CAL.openDates.indexOf(dateStr)>=0) return false;
-  if(CAL.closedDow.indexOf(dateObj.getDay())>=0) return true;
-  if(CAL.holidaysClosed && holName(dateStr)) return true;
-  if(CAL.closedDates.indexOf(dateStr)>=0) return true;
-  return false;
+const CAL_DEFAULT={closedDow:[],holidaysClosed:false,closedDates:[],openDates:[],rules:null,recurring:[
+  {id:'r-seed1',title:'ノー残DAY',freq:'weekly',dow:5,time:'',layer:'company',prefix:'全社'},
+  {id:'r-seed2',title:'月例報告会',freq:'monthlyNth',nth:2,dow:2,time:'15:00',layer:'company',prefix:''}
+]};
+/* 旧設定（定休曜日/祝日/臨時休業/特別営業）を積み上げルールへ自動移行 */
+function migrateRules(o){
+  if(Array.isArray(o.rules)) return o;
+  const rules=[];
+  (o.closedDow||[]).forEach(function(dw){rules.push({id:'rg-dow'+dw,on:true,cond:'weekly',dow:dw,effect:'close',note:''});});
+  if(o.holidaysClosed) rules.push({id:'rg-hol',on:true,cond:'holiday',effect:'close',note:'祝日'});
+  (o.closedDates||[]).forEach(function(dt,i){rules.push({id:'rg-cd'+i,on:true,cond:'date',date:dt,effect:'close',note:'臨時休業'});});
+  (o.openDates||[]).forEach(function(dt,i){rules.push({id:'rg-od'+i,on:true,cond:'date',date:dt,effect:'open',note:'特別営業'});});
+  o.rules=rules; return o;
 }
+function freshCal(){ return migrateRules(JSON.parse(JSON.stringify(CAL_DEFAULT))); }
+let CAL=freshCal();
+function calDoc(){ return window.fb.db.collection('companies').doc(COMPANY_ID).collection('settings').doc('mhsCompanyCalendar'); }
+function loadCalRemote(){
+  return calDoc().get().then(function(d){
+    if(d.exists){ var base=JSON.parse(JSON.stringify(CAL_DEFAULT)); CAL=migrateRules(Object.assign(base,d.data())); }
+    else { CAL=freshCal(); }
+  }).catch(function(e){ console.warn('[MHS] 会社カレンダー読込失敗',e); CAL=freshCal(); });
+}
+function saveCal(){
+  var data={ rules:CAL.rules||[], recurring:CAL.recurring||[], closedDow:CAL.closedDow||[], holidaysClosed:!!CAL.holidaysClosed, closedDates:CAL.closedDates||[], openDates:CAL.openDates||[], updatedAt:window.fb.serverTimestamp() };
+  calDoc().set(data,{merge:true}).catch(function(e){ console.error('[MHS] 会社カレンダー保存失敗',e); toast('⚠ 設定の保存に失敗（権限/通信）'); });
+}
+/* 休業ルールの判定（上から積み上げ・営業が最優先） */
+function ruleMatch(r,dStr,d){
+  switch(r.cond){
+    case 'weekly':     return d.getDay()===(+r.dow);
+    case 'monthlyNth': return d.getDay()===(+r.dow) && (Math.floor((d.getDate()-1)/7)+1)===(+r.nth);
+    case 'holiday':    return !!holName(dStr);
+    case 'range':      return !!(r.from&&r.to&&dStr>=r.from&&dStr<=r.to);
+    case 'date':       return dStr===r.date;
+    default:           return false;
+  }
+}
+function evalDay(dStr,d){
+  let closeHit=false, openWin=false; const warns=[];
+  (CAL.rules||[]).forEach(function(r){
+    if(r.on===false) return;
+    if(!ruleMatch(r,dStr,d)) return;
+    if(r.effect==='open') openWin=true;
+    else if(r.effect==='memo') warns.push(r.note||'メモ');
+    else closeHit=true;
+  });
+  return {closed:(closeHit&&!openWin), warns:warns, openWin:openWin, closeHit:closeHit};
+}
+function isClosedDay(dateStr,dateObj){ return evalDay(dateStr,dateObj).closed; }
 
-function rel(n){return ymd(addDays(TODAY,n));}
-const EVENTS=[
-  {layer:'company', date:rel(0),  time:'09:00', title:'朝礼', who:['社長','椎名','壱谷','福光','蓮沼','箱崎','菅谷','林','高橋']},
-  {layer:'company', date:rel(0),  time:'13:30', title:'専務：千葉銀行様 来社', who:['社長'], place:'本社'},
-  {layer:'company', date:rel(1),  time:'10:00', title:'整備：MTG（工程確認）', who:['椎名','壱谷','福光'], place:'整備'},
-  {layer:'company', date:rel(2),  time:'終日',   title:'ノー残DAY', who:[]},
-  {layer:'company', date:rel(3),  time:'15:00', title:'月例報告会', who:['社長','林']},
-  {layer:'company', date:rel(-1), time:'11:00', title:'部品商 来社（定期）', who:['菅谷'], place:'本社'},
-  {layer:'carflow', date:rel(0),  time:'14:00', title:'納車：オクモト様 アクセラ', who:['壱谷'], vehicle:'アクセラ', place:'店頭'},
-  {layer:'carflow', date:rel(0),  time:'16:30', title:'来店商談：ミワ様', who:['箱崎'], place:'店頭'},
-  {layer:'carflow', date:rel(1),  time:'10:30', title:'納車：サトウ様 ランエボ', who:['社長'], vehicle:'ランエボ3', place:'店頭'},
-  {layer:'carflow', date:rel(3),  time:'13:00', title:'納車：スズキ様 AZ-W', who:['椎名'], vehicle:'AZ-W', place:'店頭'},
-  {layer:'pitflow', date:rel(0),  time:'09:30', title:'車検：オクモト アクセラ', who:['椎名'], vehicle:'アクセラ', place:'PIT1'},
-  {layer:'pitflow', date:rel(0),  time:'10:00', title:'一般整備：ナガタ F54', who:['壱谷'], vehicle:'F54', place:'PIT2'},
-  {layer:'pitflow', date:rel(1),  time:'09:00', title:'車検：ヤナギバシ WRX', who:['社長'], vehicle:'WRX', place:'PIT1'},
-  {layer:'pitflow', date:rel(2),  time:'09:00', title:'車検：陸運局 持込（A方面）', who:['福光'], vehicle:'インプレッサ', place:'陸運局A'},
-  {layer:'pitflow', date:rel(4),  time:'09:00', title:'車検：陸運局 持込（B方面）', who:['椎名'], vehicle:'ハリアー', place:'陸運局B'},
-  {layer:'stockflow', date:rel(0), time:'15:00', title:'卸納品：◯◯自動車 GEARFIX一式', who:['菅谷'], place:'配送'},
-  {layer:'stockflow', date:rel(4), time:'13:30', title:'卸納品：△△モータース', who:['菅谷'], place:'配送'},
-  {layer:'deadline', date:rel(1),  time:'17:00', title:'車検期限：ヒロセ様 R56', who:['福光'], vehicle:'R56'},
-  {layer:'deadline', date:rel(2),  time:'—',     title:'自賠精算 締切', who:['林']},
-  {layer:'deadline', date:rel(6),  time:'—',     title:'月末締め（請求）', who:['林']},
-];
+/* 他アプリ（CarFlow納車/PitFlow整備/StockFlow納品）の予定は Phase 3 で Firestore から重ねる。
+   いまは社内予定（scheduleEvents）と締切・行事のみ。EVENTS は将来の他アプリ読み取り用の器（現状は空）。 */
+const EVENTS=[];
 const STAFF=['社長','椎名','壱谷','福光','蓮沼','箱崎','菅谷','林','高橋'];
 const PLACES=['店頭','PIT1','PIT2','陸運局A','陸運局B','部品屋','配送','本社','整備'];
-function visibleEvents(){ return EVENTS.filter(e=>layerOn[e.layer]); }
+const TAGS=['顧客来店','支払日','休日','MTG','出張','その他'];
+
+/* 社内予定（Firestore: companies/kobayashi_motors/scheduleEvents） */
+let USER_EVENTS=[];
+function scheduleCol(){ return window.fb.db.collection('companies').doc(COMPANY_ID).collection('scheduleEvents'); }
+let _schedUnsub=null;
+function subscribeSchedule(){
+  if(_schedUnsub) return;
+  _schedUnsub=scheduleCol().onSnapshot(function(snap){
+    USER_EVENTS=[];
+    snap.forEach(function(d){ var e=d.data()||{}; e.id=d.id; e.source='manual'; if(!e.who)e.who=[]; if(!e.tags)e.tags=[]; USER_EVENTS.push(e); });
+    if(curView) showView(curView);
+  }, function(err){ console.error('[MHS] scheduleEvents購読エラー',err); toast('⚠ 予定の読込に失敗'); });
+}
+function schedSave(ev){
+  var data=Object.assign({},ev); delete data.id; delete data.source;
+  data.updatedAt=window.fb.serverTimestamp(); data.updatedBy=(window.fb.currentUser&&window.fb.currentUser.uid)||null;
+  return scheduleCol().doc(ev.id).set(data,{merge:true}).catch(function(e){ console.error('[MHS] 保存失敗',e); toast('⚠ 保存に失敗（通信/権限）'); });
+}
+function schedDelete(id){ return scheduleCol().doc(id).delete().catch(function(e){ console.error('[MHS] 削除失敗',e); toast('⚠ 削除に失敗'); }); }
+
+/* 定期予定の展開（指定範囲の各日にイベント化） */
+function nthOfMonth(d){return Math.floor((d.getDate()-1)/7)+1;}
+function expandRecurring(start,end){
+  const out=[]; const rs=CAL.recurring||[];
+  for(let d=new Date(start); ymd(d)<=ymd(end); d=addDays(d,1)){
+    rs.forEach(function(r){
+      let m=false;
+      if(r.freq==='weekly') m=(d.getDay()===r.dow);
+      else if(r.freq==='monthlyNth') m=(d.getDay()===r.dow && nthOfMonth(d)===r.nth);
+      if(m) out.push({layer:r.layer||'company',kind:'all',date:ymd(d),time:r.time||'終日',title:r.title,prefix:r.prefix||'',who:[],source:'recurring'});
+    });
+  }
+  return out;
+}
+/* 範囲内の全イベント（サンプル＋ユーザー＋定期）をレイヤーで絞って返す */
+function getEvents(start,end){
+  const s=ymd(start), e=ymd(end);
+  let list=EVENTS.concat(USER_EVENTS).filter(function(ev){return ev.date>=s&&ev.date<=e;});
+  list=list.concat(expandRecurring(start,end));
+  return list.filter(function(ev){return layerOn[ev.layer];});
+}
+function dispTitle(e){return (e.prefix?e.prefix+'：':'')+e.title;}
 
 let curMonth=new Date(TODAY.getFullYear(),TODAY.getMonth(),1);
 let curWeek=startOfWeek(TODAY);
@@ -369,10 +625,11 @@ function showView(v){
   document.getElementById('view-'+v).classList.add('active');
   document.querySelectorAll('.si-item[data-v="'+v+'"]').forEach(i=>i.classList.add('active'));
   if(v==='brief')  renderBrief();
-  if(v==='month')  renderMonth();
+  if(v==='month')  renderCal();
   if(v==='axis')   renderAxis();
   if(v==='calset') renderCalSet();
 }
+document.getElementById('cal-mode-seg').addEventListener('click',function(e){ if(e.target.dataset.m) setCalMode(e.target.dataset.m); });
 
 function renderLayers(containerId){
   const c=document.getElementById(containerId); if(!c)return;
@@ -380,36 +637,129 @@ function renderLayers(containerId){
   c.querySelectorAll('.layer').forEach(el=>el.addEventListener('click',()=>{
     const k=el.dataset.k; layerOn[k]=!layerOn[k];
     renderLayers('layers-month'); renderLayers('layers-axis');
-    renderMonth(); renderAxis(); renderBrief();
+    renderCal(); renderAxis(); renderBrief();
   }));
 }
 
-function moveMonth(n){curMonth=new Date(curMonth.getFullYear(),curMonth.getMonth()+n,1);renderMonth();}
-function goThisMonth(){curMonth=new Date(TODAY.getFullYear(),TODAY.getMonth(),1);renderMonth();}
-function renderMonth(){
-  renderLayers('layers-month');
-  document.getElementById('month-label').textContent=curMonth.getFullYear()+'年 '+(curMonth.getMonth()+1)+'月';
-  const first=new Date(curMonth.getFullYear(),curMonth.getMonth(),1);
-  const start=startOfWeek(first);
-  const grid=document.getElementById('cal-grid'); let h='';
-  const byDate={}; visibleEvents().forEach(e=>{(byDate[e.date]=byDate[e.date]||[]).push(e);});
-  for(let i=0;i<42;i++){
-    const d=addDays(start,i), key=ymd(d), inMonth=d.getMonth()===curMonth.getMonth();
-    const isToday=key===ymd(TODAY);
-    const hol=holName(key);
-    const closed=isClosedDay(key,d);
-    const evs=(byDate[key]||[]).sort((a,b)=>(a.time>b.time?1:-1));
-    let cell='<div class="cell'+(inMonth?'':' other')+(isToday?' today':'')+(closed?' closed':'')+(hol?' holiday':'')+'">';
-    cell+='<div class="dnum">'+d.getDate()+'</div>';
-    if(closed) cell+='<div class="closed-badge">休</div>';
-    if(hol) cell+='<div class="hol-name" title="'+hol+'">'+hol+'</div>';
-    evs.slice(0,3).forEach(e=>{cell+='<div class="ev" style="background:'+hexOf(e.layer)+'" onclick=\'openEv('+JSON.stringify(JSON.stringify(e))+')\'><span class="et">'+(e.time==='終日'||e.time==='—'?'':e.time)+'</span>'+e.title+'</div>';});
-    if(evs.length>3) cell+='<div class="more">＋'+(evs.length-3)+'件</div>';
-    cell+='</div>';
-    h+=cell;
-  }
-  grid.innerHTML=h;
+/* ===== カレンダー（月／週／日 切替・ドラッグ移動・ホバー全件） ===== */
+let calMode='month';
+let calCursor=new Date(TODAY);
+function byTime(a,b){return (a.time>b.time?1:-1);}
+function jsAttr(js){ return js.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+function openEvAttr(e){ const j=JSON.stringify(e).replace(/\\/g,'\\\\').replace(/'/g,"\\'"); return jsAttr("event.stopPropagation();openEv('"+j+"')"); }
+function evChip(e,cls){
+  const manual=e.source==='manual';
+  const t=(e.time==='終日'||e.time==='—'?'':e.time);
+  return '<div class="'+cls+'" style="background:'+hexOf(e.layer)+'"'+(manual?' draggable="true" ondragstart="evDragStart(event,\''+escA(e.id)+'\')" ondragend="evDragEnd(event)"':'')+' onclick="'+openEvAttr(e)+'"><span class="et">'+t+'</span>'+dispTitle(e)+'</div>';
 }
+function setCalMode(m){ calMode=m; document.querySelectorAll('#cal-mode-seg button').forEach(function(b){b.classList.toggle('active',b.dataset.m===m);}); renderCal(); }
+function calMove(n){
+  if(calMode==='month') calCursor=new Date(calCursor.getFullYear(),calCursor.getMonth()+n,1);
+  else if(calMode==='week') calCursor=addDays(calCursor,7*n);
+  else calCursor=addDays(calCursor,n);
+  renderCal();
+}
+function calToday(){ calCursor=new Date(TODAY); renderCal(); }
+function renderCal(){
+  renderLayers('layers-month');
+  if(calMode==='month') renderMonthGrid();
+  else if(calMode==='week') renderWeekGrid();
+  else renderDayGrid();
+}
+/* 互換：レイヤー切替などから呼ばれる */
+function renderMonth(){ renderCal(); }
+
+function renderMonthGrid(){
+  const cur=new Date(calCursor.getFullYear(),calCursor.getMonth(),1);
+  document.getElementById('cal-label').textContent=cur.getFullYear()+'年 '+(cur.getMonth()+1)+'月';
+  const start=startOfWeek(cur);
+  const byDate={}; getEvents(start,addDays(start,41)).forEach(function(e){(byDate[e.date]=byDate[e.date]||[]).push(e);});
+  let h='<div class="cal"><div class="cal-dow"><div class="sun">日</div><div>月</div><div>火</div><div>水</div><div>木</div><div>金</div><div class="sat">土</div></div><div class="cal-grid">';
+  for(let i=0;i<42;i++){
+    const d=addDays(start,i), key=ymd(d), inMonth=d.getMonth()===cur.getMonth();
+    const isToday=key===ymd(TODAY), hol=holName(key), ev=evalDay(key,d);
+    const evs=(byDate[key]||[]).sort(byTime);
+    h+='<div class="cell'+(inMonth?'':' other')+(isToday?' today':'')+(ev.closed?' closed':'')+(hol?' holiday':'')+'" data-date="'+key+'" ondragover="cellDragOver(event)" ondragleave="cellDragLeave(event)" ondrop="cellDrop(event,\''+key+'\')" onmouseenter="dayPopShow(event,\''+key+'\')" onmouseleave="dayPopHide()">';
+    h+='<div class="dnum">'+d.getDate()+'</div>';
+    if(ev.closed) h+='<div class="closed-badge">休</div>';
+    else if(ev.openWin) h+='<div class="closed-badge" style="color:#16a34a;border-color:rgba(22,163,74,.4)">営</div>';
+    if(hol) h+='<div class="hol-name" title="'+hol+'">'+hol+'</div>';
+    evs.slice(0,3).forEach(function(e){ h+=evChip(e,'ev'); });
+    if(evs.length>3) h+='<div class="more">＋'+(evs.length-3)+'件（マウスオーバーで全件）</div>';
+    h+='<div class="daycell-add" title="この日に社内予定を追加" onclick="event.stopPropagation();openEventForm(null,\''+key+'\')">＋</div>';
+    h+='</div>';
+  }
+  h+='</div></div>';
+  document.getElementById('cal-host').innerHTML=h;
+}
+
+function renderWeekGrid(){
+  const ws=startOfWeek(calCursor); const days=[]; for(let i=0;i<7;i++)days.push(addDays(ws,i));
+  document.getElementById('cal-label').textContent=(ws.getMonth()+1)+'/'+ws.getDate()+' 〜 '+(days[6].getMonth()+1)+'/'+days[6].getDate();
+  const byDate={}; getEvents(ws,addDays(ws,6)).forEach(function(e){(byDate[e.date]=byDate[e.date]||[]).push(e);});
+  let h='<div class="cal-wk">';
+  days.forEach(function(d){
+    const key=ymd(d), isToday=key===ymd(TODAY), hol=holName(key), ev=evalDay(key,d);
+    const evs=(byDate[key]||[]).sort(byTime);
+    h+='<div class="wkcol'+(isToday?' today':'')+(ev.closed?' closed':'')+'" data-date="'+key+'" ondragover="cellDragOver(event)" ondragleave="cellDragLeave(event)" ondrop="cellDrop(event,\''+key+'\')">';
+    h+='<div class="wkcol-h"><span class="'+(d.getDay()===0?'sun':(d.getDay()===6?'sat':''))+'">'+DOW[d.getDay()]+' '+(d.getMonth()+1)+'/'+d.getDate()+'</span>'+(hol?'<span class="hn" title="'+hol+'">'+hol+'</span>':'')+(ev.closed?'<span class="cb">休</span>':(ev.openWin?'<span class="ob">営</span>':''))+'</div>';
+    h+='<div class="wkcol-body">';
+    evs.forEach(function(e){ h+=evChip(e,'wev'); });
+    h+='<div class="wkcol-add" onclick="openEventForm(null,\''+key+'\')">＋ 追加</div>';
+    h+='</div></div>';
+  });
+  h+='</div>';
+  document.getElementById('cal-host').innerHTML=h;
+}
+
+function renderDayGrid(){
+  const d=new Date(calCursor.getFullYear(),calCursor.getMonth(),calCursor.getDate());
+  const key=ymd(d), hol=holName(key), ev=evalDay(key,d);
+  document.getElementById('cal-label').textContent=(d.getMonth()+1)+'/'+d.getDate()+'（'+DOW[d.getDay()]+'）';
+  const list=getEvents(d,d).sort(byTime);
+  let h='<div class="dayview"><div class="dv-h">'+(d.getMonth()+1)+'月'+d.getDate()+'日（'+DOW[d.getDay()]+'）'+(hol?'<span style="color:#dc2626;font-size:12px">'+hol+'</span>':'')+(ev.closed?'<span class="cb">休業</span>':(ev.openWin?'<span class="ob">特別営業</span>':''))+'</div>';
+  if(ev.warns.length) h+='<div style="padding:8px 14px;font-size:12px;color:#eab308;border-top:1px solid var(--border)">📝 '+ev.warns.map(esc).join(' / ')+'</div>';
+  if(!list.length){ h+='<div class="dv-row" style="cursor:default;color:var(--text3)">予定なし</div>'; }
+  else list.forEach(function(e){ h+='<div class="dv-row" onclick="'+openEvAttr(e)+'"><div class="dv-tm">'+(e.time==='終日'||e.time==='—'?'終日':e.time)+'</div><div class="dv-bd"><div style="font-weight:600"><span class="dv-tag" style="background:'+hexOf(e.layer)+'"></span>'+dispTitle(e)+'</div><div style="font-size:11.5px;color:var(--text3);margin-top:2px">'+nameOf(e.layer)+(e.who&&e.who.length?'・'+e.who.join('、'):'')+(e.place?'・'+esc(e.place):'')+'</div></div></div>'; });
+  h+='<div class="dv-add" onclick="openEventForm(null,\''+key+'\')">＋ この日に社内予定を追加</div>';
+  h+='</div>';
+  document.getElementById('cal-host').innerHTML=h;
+}
+
+/* ドラッグ移動（社内予定のみ） */
+let dragId=null;
+function evDragStart(ev,id){ dragId=id; try{ev.dataTransfer.effectAllowed='move';ev.dataTransfer.setData('text/plain',id);}catch(e){} if(ev.target.classList)ev.target.classList.add('dragging'); dayPopHide(); }
+function evDragEnd(ev){ if(ev.target.classList)ev.target.classList.remove('dragging'); }
+function cellDragOver(ev){ if(!dragId)return; ev.preventDefault(); try{ev.dataTransfer.dropEffect='move';}catch(e){} ev.currentTarget.classList.add('drag-over'); }
+function cellDragLeave(ev){ ev.currentTarget.classList.remove('drag-over'); }
+function cellDrop(ev,dateStr){
+  ev.preventDefault(); ev.currentTarget.classList.remove('drag-over');
+  let id=dragId; try{ if(!id)id=ev.dataTransfer.getData('text/plain'); }catch(e){}
+  dragId=null; if(!id)return;
+  const i=USER_EVENTS.findIndex(function(x){return x.id===id;}); if(i<0)return;
+  if(USER_EVENTS[i].date===dateStr)return;
+  USER_EVENTS[i].date=dateStr; renderCal(); renderBrief(); schedSave(USER_EVENTS[i]);
+  toast('「'+dispTitle(USER_EVENTS[i])+'」を '+dateStr.slice(5).replace('-','/')+' へ移動');
+}
+
+/* ホバーでその日の全件をポップ表示 */
+let popHold=false, popTimer=null;
+function dayPopHold(v){ popHold=v; if(!v) dayPopHide(); }
+function dayPopShow(ev,dateStr){
+  const d=new Date(dateStr+'T00:00:00');
+  const list=getEvents(d,d).sort(byTime);
+  if(list.length<=3){ dayPopHide(); return; }
+  clearTimeout(popTimer);
+  const p=document.getElementById('day-pop');
+  let h='<div class="pop-h">'+dateStr.slice(5).replace('-','/')+' の予定（'+list.length+'件）</div>';
+  list.forEach(function(e){ h+='<div class="pop-ev" style="background:'+hexOf(e.layer)+'" onclick="'+openEvAttr(e)+'">'+(e.time==='終日'||e.time==='—'?'':e.time+' ')+dispTitle(e)+'</div>'; });
+  p.innerHTML=h;
+  const r=ev.currentTarget.getBoundingClientRect();
+  p.style.left=Math.max(8,Math.min(r.left, window.innerWidth-332))+'px';
+  p.style.top=Math.min(r.bottom+4, window.innerHeight-Math.min(list.length*26+40, 300))+'px';
+  p.classList.add('show');
+}
+function dayPopHide(){ const p=document.getElementById('day-pop'); popTimer=setTimeout(function(){ if(!popHold)p.classList.remove('show'); },140); }
 
 document.getElementById('axis-seg').addEventListener('click',e=>{
   if(e.target.dataset.ax){
@@ -424,23 +774,23 @@ function renderAxis(){
   renderLayers('layers-axis');
   const days=[]; for(let i=0;i<7;i++)days.push(addDays(curWeek,i));
   document.getElementById('week-label').textContent=(curWeek.getMonth()+1)+'/'+curWeek.getDate()+' 〜 '+(days[6].getMonth()+1)+'/'+days[6].getDate();
+  const evs=getEvents(curWeek,addDays(curWeek,6));
   let rows, rowLabel, axisName, matcher;
   if(curAxis==='member'){ rows=STAFF; axisName='メンバー'; matcher=(e,r)=>(e.who||[]).includes(r); rowLabel=r=>'<span class="av">'+r.charAt(0)+'</span>'+r; }
-  else if(curAxis==='vehicle'){ const vs=[...new Set(visibleEvents().map(e=>e.vehicle).filter(v=>v&&v!=='—'))]; rows=vs.length?vs:['（車両指定の予定なし）']; axisName='車両'; matcher=(e,r)=>e.vehicle===r; rowLabel=r=>'🚗 '+r; }
+  else if(curAxis==='vehicle'){ const vs=[...new Set(evs.map(e=>e.vehicle).filter(v=>v&&v!=='—'))]; rows=vs.length?vs:['（車両指定の予定なし）']; axisName='車両'; matcher=(e,r)=>e.vehicle===r; rowLabel=r=>'🚗 '+r; }
   else { rows=PLACES; axisName='場所'; matcher=(e,r)=>e.place===r; rowLabel=r=>'📍 '+r; }
   document.getElementById('axis-name').textContent=axisName;
   const grid=document.getElementById('axis-grid');
   grid.style.gridTemplateColumns='150px repeat(7,1fr)';
   let h='<div class="ah" style="position:sticky;left:0;z-index:2">'+axisName+' \\ 日</div>';
   days.forEach(d=>{const t=ymd(d)===ymd(TODAY); h+='<div class="ah'+(t?' col-today':'')+'">'+DOW[d.getDay()]+' '+(d.getMonth()+1)+'/'+d.getDate()+'</div>';});
-  const evs=visibleEvents();
   rows.forEach(r=>{
     h+='<div class="rh">'+rowLabel(r)+'</div>';
     days.forEach(d=>{
       const t=ymd(d)===ymd(TODAY);
       const cell=evs.filter(e=>e.date===ymd(d)&&matcher(e,r)).sort((a,b)=>(a.time>b.time?1:-1));
       h+='<div class="acell'+(t?' col-today':'')+'">';
-      cell.forEach(e=>{h+='<div class="achip" style="background:'+hexOf(e.layer)+'" onclick=\'openEv('+JSON.stringify(JSON.stringify(e))+')\'>'+(e.time==='終日'||e.time==='—'?'':e.time+' ')+e.title+'</div>';});
+      cell.forEach(e=>{h+='<div class="achip" style="background:'+hexOf(e.layer)+'" onclick=\'openEv('+JSON.stringify(JSON.stringify(e))+')\'>'+(e.time==='終日'||e.time==='—'?'':e.time+' ')+dispTitle(e)+'</div>';});
       h+='</div>';
     });
   });
@@ -450,19 +800,20 @@ function renderAxis(){
 function renderBrief(){
   document.getElementById('brief-date').textContent='（'+(TODAY.getMonth()+1)+'/'+TODAY.getDate()+' '+DOW[TODAY.getDay()]+'）';
   const td=ymd(TODAY), tm=ymd(addDays(TODAY,1));
+  const two=getEvents(TODAY,addDays(TODAY,1));
   const fill=(elId,nId,dateKey)=>{
-    const list=visibleEvents().filter(e=>e.date===dateKey).sort((a,b)=>(a.time>b.time?1:-1));
+    const list=two.filter(e=>e.date===dateKey).sort((a,b)=>(a.time>b.time?1:-1));
     document.getElementById(nId).textContent=list.length+'件';
     const el=document.getElementById(elId);
     if(!list.length){el.innerHTML='<div class="empty">予定なし</div>';return;}
-    el.innerHTML=list.map(e=>('<div class="brow"><div class="tm">'+e.time+'</div><div class="bd"><div class="bt"><span class="tag" style="background:'+hexOf(e.layer)+'"></span>'+e.title+'</div><div class="bm">'+nameOf(e.layer)+(e.who&&e.who.length?'・'+e.who.join('、'):'')+(e.place?'・'+e.place:'')+'</div></div></div>')).join('');
+    el.innerHTML=list.map(e=>('<div class="brow"><div class="tm">'+e.time+'</div><div class="bd"><div class="bt"><span class="tag" style="background:'+hexOf(e.layer)+'"></span>'+dispTitle(e)+'</div><div class="bm">'+nameOf(e.layer)+(e.who&&e.who.length?'・'+e.who.join('、'):'')+(e.place?'・'+e.place:'')+'</div></div></div>')).join('');
   };
   fill('brief-today','brief-today-n',td);
   fill('brief-tom','brief-tom-n',tm);
   const w=[];
-  const todayDeliveries=visibleEvents().filter(e=>e.date===td&&e.layer==='carflow'&&/納車/.test(e.title));
+  const todayDeliveries=two.filter(e=>e.date===td&&e.layer==='carflow'&&/納車/.test(e.title));
   if(todayDeliveries.length>=2) w.push('🚗 今日は納車が'+todayDeliveries.length+'件。配車と洗車の段取りを確認。');
-  const dlSoon=visibleEvents().filter(e=>e.layer==='deadline'&&(e.date===td||e.date===tm));
+  const dlSoon=two.filter(e=>e.layer==='deadline'&&(e.date===td||e.date===tm));
   dlSoon.forEach(e=>w.push('⏰ 締切が近い：'+e.title+'（'+(e.date===td?'今日':'明日')+'）'));
   const wc=document.getElementById('brief-warns');
   wc.innerHTML=w.length?('<div class="warns"><h3>⚠️ 今日の注意</h3>'+w.map(x=>'<div>'+x+'</div>').join('')+'</div>'):'';
@@ -471,43 +822,212 @@ function renderBrief(){
 /* 会社カレンダー設定 UI（マスター） */
 function renderCalSet(){
   const b=document.getElementById('calset-body'); if(!b)return;
-  const dowBtns=DOW.map((d,i)=>'<button class="vh-btn'+(CAL.closedDow.indexOf(i)>=0?' on':'')+'" onclick="toggleClosedDow('+i+')">'+d+'</button>').join('');
-  const cl=CAL.closedDates.slice().sort();
-  const op=CAL.openDates.slice().sort();
-  const closedList=cl.length?cl.map(dt=>calDateChip(dt,'closed')).join(''):'<span class="empty">なし</span>';
-  const openList=op.length?op.map(dt=>calDateChip(dt,'open')).join(''):'<span class="empty">なし</span>';
   b.innerHTML=
-    calCard('🗓️ 定休曜日','毎週この曜日を定休にします（複数可）。御社は日曜も営業なので、必要な曜日だけ選んでください。','<div style="display:flex;gap:6px;flex-wrap:wrap">'+dowBtns+'</div>')+
-    calCard('🎌 祝日の扱い','祝日を休業にするか。御社は祝日も営業のため既定はオフです。','<label style="display:inline-flex;align-items:center;gap:8px;font-size:13px;cursor:pointer"><input type="checkbox" '+(CAL.holidaysClosed?'checked':'')+' onchange="toggleHolClosed(this.checked)"> 祝日を休業にする</label>')+
-    calCard('🚫 臨時休業日','特定の日を休業に（お盆・年末年始など）。','<div style="display:flex;gap:8px;align-items:center;margin-bottom:10px"><input type="date" id="cal-closed-input" class="cal-date"><button class="vh-btn" onclick="addCalDate(\'closed\')">追加</button></div><div class="chips">'+closedList+'</div>')+
-    calCard('✅ 特別営業日','定休日や祝日でも、この日は営業に（最優先）。','<div style="display:flex;gap:8px;align-items:center;margin-bottom:10px"><input type="date" id="cal-open-input" class="cal-date"><button class="vh-btn" onclick="addCalDate(\'open\')">追加</button></div><div class="chips">'+openList+'</div>');
+    ruleCardHTML()+
+    calCard('🔁 行事・全社定期予定','毎週・毎月の繰り返し予定（ノー残DAY・月例報告会など）を1回登録。カレンダーと朝礼に自動で表示されます。',recurListHTML()+recurAddHTML());
 }
-function calCard(t,sub,inner){return '<div class="bcard" style="margin-bottom:14px"><h3 style="margin-bottom:2px">'+t+'</h3><p style="font-size:12px;color:var(--text3);margin:0 0 12px">'+sub+'</p>'+inner+'</div>';}
-function calDateChip(dt,kind){return '<span class="cal-chip '+kind+'">'+dt+'<button onclick="removeCalDate(\''+kind+'\',\''+dt+'\')" title="削除">✕</button></span>';}
-function toggleClosedDow(i){const a=CAL.closedDow,p=a.indexOf(i);p>=0?a.splice(p,1):a.push(i);saveCal();renderCalSet();}
-function toggleHolClosed(v){CAL.holidaysClosed=!!v;saveCal();}
-function addCalDate(kind){const el=document.getElementById(kind==='closed'?'cal-closed-input':'cal-open-input');if(!el||!el.value)return;const a=kind==='closed'?CAL.closedDates:CAL.openDates;if(a.indexOf(el.value)<0)a.push(el.value);saveCal();renderCalSet();}
-function removeCalDate(kind,dt){const a=kind==='closed'?CAL.closedDates:CAL.openDates,p=a.indexOf(dt);if(p>=0)a.splice(p,1);saveCal();renderCalSet();}
 
+/* ===== 休業日 積み上げルール（PitFlow流） ===== */
+function ruleCardHTML(){
+  const rs=CAL.rules||[];
+  let inner='<div class="rule-presets">'
+    +'<button class="vh-btn" onclick="ruleAddPreset(\'weeklyClose\')">＋ 毎週の定休</button>'
+    +'<button class="vh-btn" onclick="ruleAddPreset(\'nthClose\')">＋ 第n曜の休み</button>'
+    +'<button class="vh-btn" onclick="ruleAddPreset(\'holClose\')">＋ 祝日を休む</button>'
+    +'<button class="vh-btn" onclick="ruleAddPreset(\'rangeClose\')">＋ 期間休業</button>'
+    +'<button class="vh-btn" onclick="ruleAddPreset(\'dateClose\')">＋ 特定日 休業</button>'
+    +'<button class="vh-btn" onclick="ruleAddPreset(\'dateOpen\')">＋ 特別営業日</button>'
+    +'</div>';
+  if(!rs.length) inner+='<div class="empty" style="padding:4px 0 10px">まだルールがありません。上のボタンで休業ルールを積んでください。<br>例：「毎週 水曜 → 休む」「毎月 第2 土曜 → 休む」「8/13〜8/16 → 休む」「1/5（祝）→ 営業（最優先）」</div>';
+  rs.forEach(function(r,i){ inner+=ruleRowHTML(r,i); });
+  inner+=rulePreviewHTML();
+  return calCard('🛑 休業日ルール（積み上げ式）','上から積み上げて会社の営業日を決めます。<b style="color:#16a34a">営業</b>ルールが<b style="color:#16a34a">最優先</b>（休みより勝つ）。将来は各Flow（CarFlow/PitFlow/StockFlow）がこのマスターを参照します。',inner);
+}
+function ruleSel(field,i,opts,val){ return '<select onchange="ruleEdit('+i+',\''+field+'\',this.value)">'+opts.map(function(o){return '<option value="'+o[0]+'"'+(o[0]===val?' selected':'')+'>'+o[1]+'</option>';}).join('')+'</select>'; }
+function ruleDowSel(i,val){ return '<select onchange="ruleEdit('+i+',\'dow\',this.value)">'+DOW.map(function(d,x){return '<option value="'+x+'"'+(x===(+val)?' selected':'')+'>'+d+'曜</option>';}).join('')+'</select>'; }
+function ruleNthSel(i,val){ let h='<select onchange="ruleEdit('+i+',\'nth\',this.value)">'; for(let n=1;n<=5;n++)h+='<option value="'+n+'"'+(n===(+val)?' selected':'')+'>第'+n+'</option>'; return h+'</select>'; }
+function ruleRowHTML(r,i){
+  const condSel=ruleSel('cond',i,[['weekly','毎週'],['monthlyNth','毎月第n'],['holiday','祝日'],['range','期間'],['date','特定日']],r.cond);
+  let params='';
+  if(r.cond==='weekly') params=ruleDowSel(i,r.dow);
+  else if(r.cond==='monthlyNth') params=ruleNthSel(i,r.nth)+ruleDowSel(i,r.dow);
+  else if(r.cond==='range') params='<input type="date" value="'+(r.from||'')+'" onchange="ruleEdit('+i+',\'from\',this.value)"><span style="color:var(--text3)">〜</span><input type="date" value="'+(r.to||'')+'" onchange="ruleEdit('+i+',\'to\',this.value)">';
+  else if(r.cond==='date') params='<input type="date" value="'+(r.date||'')+'" onchange="ruleEdit('+i+',\'date\',this.value)">';
+  const effSel=ruleSel('effect',i,[['close','🛑 休む'],['open','✅ 営業'],['memo','📝 メモ']],r.effect);
+  return '<div class="rule-row'+(r.on===false?' off':'')+'">'
+    +'<span class="rule-no">'+(i+1)+'</span>'
+    +'<label title="ON/OFF" style="display:inline-flex;align-items:center"><input type="checkbox" '+(r.on!==false?'checked':'')+' onchange="ruleEdit('+i+',\'on\',this.checked)"></label>'
+    +condSel+params+effSel
+    +'<input type="text" placeholder="メモ（任意）" value="'+esc(r.note||'')+'" onchange="ruleEdit('+i+',\'note\',this.value)">'
+    +'<button class="rule-del" title="削除" onclick="ruleDel('+i+')">🗑</button>'
+    +'</div>';
+}
+function rulePreviewHTML(){
+  const out=[]; let openEx=0;
+  for(let i=0;i<30;i++){
+    const d=addDays(TODAY,i), key=ymd(d), ev=evalDay(key,d);
+    if(ev.closed) out.push('<span class="pd">'+(d.getMonth()+1)+'/'+d.getDate()+'('+DOW[d.getDay()]+')</span>');
+    else if(ev.openWin && ev.closeHit) openEx++;
+  }
+  let h='<div class="rule-prev"><b>今後30日の休業：'+out.length+'日</b>';
+  h+= out.length? '<div style="margin-top:4px">'+out.join('')+'</div>' : '<span style="color:var(--text3)">　休業日なし</span>';
+  if(openEx) h+='<div style="margin-top:6px;color:#37d39a;font-size:11.5px">✅ 営業ルールで開けた日：'+openEx+'日</div>';
+  return h+'</div>';
+}
+function ruleEdit(i,field,val){
+  const r=(CAL.rules||[])[i]; if(!r)return;
+  if(field==='on') r.on=!!val;
+  else if(field==='dow'||field==='nth') r[field]=+val;
+  else r[field]=val;
+  saveCal(); renderCalSet(); renderCal();
+}
+function ruleDel(i){ (CAL.rules||[]).splice(i,1); saveCal(); renderCalSet(); renderCal(); toast('ルールを削除'); }
+function ruleAddPreset(kind){
+  CAL.rules=CAL.rules||[];
+  const m={
+    weeklyClose:{cond:'weekly',dow:3,effect:'close'},
+    nthClose:{cond:'monthlyNth',nth:2,dow:6,effect:'close'},
+    holClose:{cond:'holiday',effect:'close',note:'祝日'},
+    rangeClose:{cond:'range',from:'',to:'',effect:'close',note:'長期休業'},
+    dateClose:{cond:'date',date:'',effect:'close',note:'臨時休業'},
+    dateOpen:{cond:'date',date:'',effect:'open',note:'特別営業'}
+  };
+  const base=m[kind]||{cond:'weekly',dow:0,effect:'close'};
+  CAL.rules.push(Object.assign({id:'r'+Date.now(),on:true,note:''},base));
+  saveCal(); renderCalSet(); renderCal(); toast('ルールを追加');
+}
+function recurDesc(r){const dw=DOW[r.dow]||'';if(r.freq==='weekly')return '毎週'+dw+'曜';if(r.freq==='monthlyNth')return '毎月 第'+r.nth+' '+dw+'曜';return '';}
+function recurListHTML(){
+  const rs=CAL.recurring||[];
+  if(!rs.length) return '<div class="empty" style="margin-bottom:12px">なし</div>';
+  return '<div style="margin-bottom:14px">'+rs.map(function(r){
+    return '<div class="rec-row"><div class="rt"><b>'+(r.prefix?esc(r.prefix)+'：':'')+esc(r.title)+'</b><span class="rb">'+recurDesc(r)+(r.time?' '+r.time:'')+'</span></div><button class="rec-x" onclick="removeRecur(\''+escA(r.id)+'\')">✕ 削除</button></div>';
+  }).join('')+'</div>';
+}
+function recurAddHTML(){
+  const dows=DOW.map(function(d,i){return '<option value="'+i+'">'+d+'</option>';}).join('');
+  return '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">'+
+    '<input type="text" id="rec-title" class="cal-date" placeholder="予定名（例：ノー残DAY）" style="flex:1;min-width:150px">'+
+    '<select id="rec-freq" class="cal-date" onchange="document.getElementById(\'rec-nth\').style.display=this.value===\'monthlyNth\'?\'\':\'none\'"><option value="weekly">毎週</option><option value="monthlyNth">毎月第n</option></select>'+
+    '<select id="rec-nth" class="cal-date" style="display:none"><option value="1">第1</option><option value="2">第2</option><option value="3">第3</option><option value="4">第4</option></select>'+
+    '<select id="rec-dow" class="cal-date">'+dows+'</select>'+
+    '<input type="time" id="rec-time" class="cal-date" style="width:120px">'+
+    '<button class="vh-btn" onclick="addRecur()">追加</button></div>';
+}
+function addRecur(){
+  const t=document.getElementById('rec-title').value.trim(); if(!t){alert('予定名を入力してください。');return;}
+  const freq=document.getElementById('rec-freq').value;
+  const r={id:'r'+Date.now(),title:t,freq:freq,dow:+document.getElementById('rec-dow').value,nth:+document.getElementById('rec-nth').value||1,time:document.getElementById('rec-time').value,layer:'company',prefix:''};
+  (CAL.recurring=CAL.recurring||[]).push(r); saveCal(); renderCalSet(); toast('定期予定を追加しました');
+}
+function removeRecur(id){ if(!confirm('この定期予定を削除しますか？'))return; CAL.recurring=(CAL.recurring||[]).filter(function(r){return r.id!==id;}); saveCal(); renderCalSet(); toast('削除しました'); }
+function calCard(t,sub,inner){return '<div class="bcard" style="margin-bottom:14px"><h3 style="margin-bottom:2px">'+t+'</h3><p style="font-size:12px;color:var(--text3);margin:0 0 12px">'+sub+'</p>'+inner+'</div>';}
+
+let curEv=null;
 function openEv(json){
-  const e=JSON.parse(json);
-  document.getElementById('ev-title').textContent=e.title;
+  const e=JSON.parse(json); curEv=e;
+  const manual=(e.source==='manual');
+  document.getElementById('ev-title').textContent=dispTitle(e);
+  let foot='';
+  if(manual){
+    foot='<div style="margin-top:14px;display:flex;gap:8px"><button class="btn-ghost" onclick="editFromView()">✏️ 編集</button><button class="btn-del" onclick="deleteFromView()">🗑️ 削除</button></div>';
+  }else if(e.source==='recurring'){
+    foot='<div class="fr" style="margin-top:8px;color:var(--text3);font-size:11.5px">※「行事・全社定期予定」（会社カレンダー設定）から自動表示。編集は設定画面で行います。</div>';
+  }else if(e.layer!=='company'&&e.layer!=='deadline'){
+    foot='<div class="fr" style="margin-top:8px;color:var(--text3);font-size:11.5px">※サンプル。本来この予定は各アプリ側（'+nameOf(e.layer)+'）で編集します。MHSは閲覧です。</div>';
+  }else{
+    foot='<div class="fr" style="margin-top:8px;color:var(--text3);font-size:11.5px">※サンプルデータです。</div>';
+  }
   document.getElementById('ev-body').innerHTML=
     '<div class="fr"><span class="k">区分</span><span class="lbl" style="background:'+hexOf(e.layer)+'">'+nameOf(e.layer)+'</span></div>'+
     '<div class="fr"><span class="k">日付</span><span>'+e.date+'</span></div>'+
     '<div class="fr"><span class="k">時間</span><span>'+e.time+'</span></div>'+
     (e.who&&e.who.length?'<div class="fr"><span class="k">担当</span><span>'+e.who.join('、')+'</span></div>':'')+
     (e.vehicle&&e.vehicle!=='—'?'<div class="fr"><span class="k">車両</span><span>'+e.vehicle+'</span></div>':'')+
-    (e.place?'<div class="fr"><span class="k">場所</span><span>'+e.place+'</span></div>':'')+
-    '<div class="fr" style="margin-top:8px;color:var(--text3);font-size:11.5px">※サンプルデータです。'+(e.layer!=='company'&&e.layer!=='deadline'?'本来この予定は各アプリ側で編集します（ScheduleFlowは閲覧）。':'社内予定はScheduleFlowで編集できる想定です。')+'</div>';
+    (e.place?'<div class="fr"><span class="k">場所</span><span>'+esc(e.place)+'</span></div>':'')+
+    (e.tags&&e.tags.length?'<div class="fr"><span class="k">タグ</span><span>'+e.tags.map(esc).join('、')+'</span></div>':'')+
+    (e.memo?'<div class="fr"><span class="k">メモ</span><span>'+esc(e.memo)+'</span></div>':'')+
+    foot;
   document.getElementById('ev-modal').classList.add('show');
 }
 function closeEv(){document.getElementById('ev-modal').classList.remove('show');}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeEv();});
+function editFromView(){ closeEv(); openEventForm(curEv); }
+function deleteFromView(){ if(!curEv||!curEv.id)return; if(!confirm('この予定を削除しますか？'))return; schedDelete(curEv.id); closeEv(); toast('削除しました'); }
 
-/* ---------- 起動 ---------- */
-renderLayers('layers-month'); renderLayers('layers-axis');
-showView('brief');
+/* ---------- 社内予定 追加/編集フォーム ---------- */
+let EF=null;
+function openEventForm(ev, presetDate){
+  EF = ev ? JSON.parse(JSON.stringify(ev)) : {layer:'company',kind:'all',dept:'',prefix:'',title:'',date:presetDate||ymd(TODAY),time:'',allDay:false,who:[],place:'',vehicle:'',tags:[],memo:'',source:'manual'};
+  if(!EF.who)EF.who=[]; if(!EF.tags)EF.tags=[];
+  if(EF.layer!=='company'&&EF.layer!=='deadline')EF.layer='company';
+  if(EF.time==='終日'){EF.allDay=true;EF.time='';}
+  if(EF.time==='—'||EF.time==null)EF.time='';
+  document.getElementById('ef-title').textContent = ev?'社内予定を編集':'社内予定を追加';
+  document.getElementById('ef-del').style.display = (ev&&ev.id)?'inline-block':'none';
+  renderEventForm();
+  document.getElementById('ef-modal').classList.add('show');
+}
+function closeEf(){document.getElementById('ef-modal').classList.remove('show');}
+function pickHTML(group,val,label,on){return '<span class="pick'+(on?' on':'')+'" onclick="efPick(\''+group+'\',\''+escA(val)+'\',this)">'+label+'</span>';}
+function renderEventForm(){
+  const b=document.getElementById('ef-body');
+  const layerPick=[['company','🗓 社内予定'],['deadline','🔴 締切・支払']].map(function(a){return pickHTML('layer',a[0],a[1],EF.layer===a[0]);}).join('');
+  const kindPick=[['all','全社'],['dept','部署'],['personal','個人']].map(function(a){return pickHTML('kind',a[0],a[1],EF.kind===a[0]);}).join('');
+  const deptPick=[['sales','車販'],['reception','受付'],['service','整備']].map(function(a){return pickHTML('dept',a[0],a[1],EF.dept===a[0]);}).join('');
+  const whoPick=STAFF.map(function(s){return pickHTML('who',s,s,EF.who.indexOf(s)>=0);}).join('');
+  const tagPick=TAGS.map(function(t){return pickHTML('tag',t,t,EF.tags.indexOf(t)>=0);}).join('');
+  const placeOpts=PLACES.map(function(p){return '<option value="'+p+'">';}).join('');
+  b.innerHTML=
+    '<div class="fld"><label>種類</label><div class="seg-pick" id="g-layer">'+layerPick+'</div></div>'+
+    '<div class="fld" id="row-kind"'+(EF.layer!=='company'?' style="display:none"':'')+'><label>階層</label><div class="seg-pick" id="g-kind">'+kindPick+'</div></div>'+
+    '<div class="fld" id="row-dept"'+((EF.layer==='company'&&EF.kind==='dept')?'':' style="display:none"')+'><label>部署</label><div class="seg-pick" id="g-dept">'+deptPick+'</div></div>'+
+    '<div class="row2"><div class="fld"><label>日付 *</label><input type="date" id="ef-date" value="'+EF.date+'" oninput="efClosedNote()"></div>'+
+    '<div class="fld"><label>時間</label><input type="time" id="ef-time" value="'+esc(EF.time||'')+'"'+(EF.allDay?' disabled':'')+'><label style="display:inline-flex;gap:5px;align-items:center;margin-top:6px;font-weight:500;color:var(--text2);font-size:12px"><input type="checkbox" id="ef-allday" '+(EF.allDay?'checked':'')+' onchange="document.getElementById(\'ef-time\').disabled=this.checked"> 終日</label></div></div>'+
+    '<div id="ef-closednote" style="font-size:11.5px;color:#f59e0b;margin:-4px 0 10px"></div>'+
+    '<div class="row2"><div class="fld"><label>見出し（担当・任意）</label><input type="text" id="ef-prefix" value="'+esc(EF.prefix||'')+'" placeholder="例：専務 / 整備"></div>'+
+    '<div class="fld"><label>件名 *</label><input type="text" id="ef-titlein" value="'+esc(EF.title||'')+'" placeholder="例：千葉銀行様 来社"></div></div>'+
+    '<div class="fld"><label>担当</label><div class="seg-pick" id="g-who">'+whoPick+'</div></div>'+
+    '<div class="fld"><label>場所</label><input type="text" id="ef-place" list="ef-places" value="'+esc(EF.place||'')+'" placeholder="例：本社 / 陸運局A"><datalist id="ef-places">'+placeOpts+'</datalist></div>'+
+    '<div class="fld"><label>タグ</label><div class="seg-pick" id="g-tag">'+tagPick+'</div></div>'+
+    '<div class="fld"><label>メモ</label><textarea id="ef-memo" placeholder="補足・連絡先・持ち物など">'+esc(EF.memo||'')+'</textarea></div>';
+  efClosedNote();
+}
+function setOnly(gid,el){document.getElementById(gid).querySelectorAll('.pick').forEach(function(p){p.classList.remove('on');}); el.classList.add('on');}
+function toggleArr(a,v){const i=a.indexOf(v); if(i>=0)a.splice(i,1); else a.push(v);}
+function efPick(group,val,el){
+  if(group==='layer'){ EF.layer=val; document.getElementById('row-kind').style.display=(val==='company'?'':'none'); document.getElementById('row-dept').style.display=((val==='company'&&EF.kind==='dept')?'':'none'); setOnly('g-layer',el); }
+  else if(group==='kind'){ EF.kind=val; document.getElementById('row-dept').style.display=(val==='dept'?'':'none'); setOnly('g-kind',el); }
+  else if(group==='dept'){ EF.dept=val; setOnly('g-dept',el); }
+  else if(group==='who'){ toggleArr(EF.who,val); el.classList.toggle('on'); }
+  else if(group==='tag'){ toggleArr(EF.tags,val); el.classList.toggle('on'); }
+}
+function efClosedNote(){
+  const dv=document.getElementById('ef-date'), n=document.getElementById('ef-closednote'); if(!dv||!n)return;
+  const v=dv.value;
+  if(v&&isClosedDay(v,new Date(v+'T00:00:00'))){ const h=holName(v); n.textContent='※ この日は休業日です'+(h?'（'+h+'）':'')+'。登録はできますが念のためご確認を。'; }
+  else n.textContent='';
+}
+function saveEventForm(){
+  const title=document.getElementById('ef-titlein').value.trim();
+  const date=document.getElementById('ef-date').value;
+  if(!title){alert('件名を入力してください。');return;}
+  if(!date){alert('日付を選んでください。');return;}
+  const allDay=document.getElementById('ef-allday').checked;
+  const time=allDay?'終日':(document.getElementById('ef-time').value||'—');
+  EF.title=title; EF.date=date; EF.allDay=allDay; EF.time=time;
+  EF.prefix=document.getElementById('ef-prefix').value.trim();
+  EF.place=document.getElementById('ef-place').value.trim();
+  EF.memo=document.getElementById('ef-memo').value.trim();
+  EF.source='manual';
+  if(EF.layer!=='company'){ EF.kind='all'; EF.dept=''; }
+  if(!EF.id) EF.id='e'+Date.now()+Math.floor(Math.random()*1000);
+  schedSave(EF); closeEf(); toast('保存しました');
+}
+function deleteEvent(){ if(!EF||!EF.id)return; if(!confirm('この予定を削除しますか？'))return; schedDelete(EF.id); closeEf(); toast('削除しました'); }
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeEv();closeEf();}});
+
+/* ---------- 起動（認証→入室→Firestore購読） ---------- */
+wireAuth();
 </script>
 </body>
 </html>
