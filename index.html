@@ -45,7 +45,16 @@
   #topbar{grid-column:1/3;display:flex;align-items:center;gap:10px;padding:0 14px;background:var(--bg2);border-bottom:1px solid var(--border)}
   .logo{display:flex;align-items:center;gap:8px;font-size:18px;font-weight:800}
   .logo .sf{color:var(--acc2)}
-  .logo .ver{font-size:11px;color:var(--text3);font-weight:600;margin-left:2px}
+  .logo .ver{font-size:10px;color:var(--text3);font-weight:600;margin-left:6px;background:var(--bg3);padding:2px 8px;border-radius:8px}
+  .sb-toggle{background:var(--bg3);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:6px 10px;font-size:15px;line-height:1;cursor:pointer}
+  .sb-toggle:hover{border-color:var(--acc)}
+  .tb-user{display:flex;align-items:center;gap:7px;margin-right:2px}
+  .tb-av{width:27px;height:27px;border-radius:50%;background:var(--acc);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;overflow:hidden;flex:none}
+  .tb-av img{width:100%;height:100%;object-fit:cover;display:block}
+  .tb-uname{font-size:13px;color:var(--text2);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  body.sb-collapsed #app{grid-template-columns:0 1fr}
+  body.sb-collapsed #sidebar{display:none}
+  @media(max-width:820px){.tb-uname{display:none}.sb-toggle{display:none}}
   .spacer{flex:1}
   .tb-btn{background:var(--bg3);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:7px 12px;font-size:13px;cursor:pointer}
   .tb-btn.primary{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:600}
@@ -262,7 +271,7 @@
     <div class="sub">MHS ─ 全社時間マスター・社内スケジュール（小林モータース）</div>
     <button class="btn" onclick="loginWithGoogle()">Google でログイン</button>
     <div class="note" id="login-msg">小林モータースの名簿（CoreFlow）に登録された方だけ入室できます。</div>
-    <div class="ver">MasterHub Schedule (MHS) v0.6.0</div>
+    <div class="ver">MasterHub Schedule (MHS) v0.6.1</div>
   </div>
 </div>
 
@@ -279,10 +288,10 @@
 <div id="app" style="display:none">
   <!-- ===== トップバー ===== -->
   <div id="topbar">
-    <div class="logo"><span>📅</span><span><span class="sf">MasterHub</span> Schedule</span><span class="ver">MHS v0.6.0</span></div>
-    <span class="dev-badge" style="background:repeating-linear-gradient(45deg,#1db97a,#1db97a 8px,#159b66 8px,#159b66 16px)">本番接続（β）</span>
+    <button class="sb-toggle" onclick="toggleSidebar()" title="サイドバーを開閉">☰</button>
+    <div class="logo"><span>📅</span><span><span class="sf">MasterHub</span> Schedule</span><span class="ver">v0.6.1</span></div>
     <div class="spacer"></div>
-    <span id="me-name" style="font-size:12px;color:var(--text2);margin-right:4px"></span>
+    <div class="tb-user"><span class="tb-av" id="u-av"></span><span class="tb-uname" id="me-name"></span></div>
     <button class="tb-btn primary" onclick="openEventForm()">＋ 社内予定</button>
     <button class="theme-toggle" onclick="toggleTheme()" title="テーマ切替">🌙</button>
     <button class="tb-btn" onclick="doLogout()" title="ログアウト">⏻</button>
@@ -373,7 +382,7 @@
       </div>
       <div class="note-card devtools">
         <h4>接続状況</h4>
-        <p>本番接続（β）。Firebase（carflow-9d500 相乗り）に接続し、社内予定は <code>scheduleEvents</code>、会社カレンダーは <code>settings/mhsCompanyCalendar</code> に保存。入室は CoreFlow 名簿（portalMembers）で判定します。他アプリ（CarFlow/PitFlow/StockFlow）の予定重ね合わせと AI配車提案は今後の実装です。</p>
+        <p>本番接続。Firebase（carflow-9d500 相乗り）に接続し、社内予定は <code>scheduleEvents</code>、会社カレンダーは <code>settings/mhsCompanyCalendar</code> に保存。入室は CoreFlow 名簿（portalMembers）で判定します。他アプリ（CarFlow/PitFlow/StockFlow）の予定重ね合わせと AI配車提案は今後の実装です。</p>
         <button onclick="doLogout()">⏻ ログアウト</button>
       </div>
     </section>
@@ -461,6 +470,8 @@ async function enterApp(member,user){
   document.getElementById('app').style.display='grid';
   var nm=(member&&member.name)||user.displayName||user.email||'ユーザー';
   var me=document.getElementById('me-name'); if(me)me.textContent=nm;
+  var av=document.getElementById('u-av');
+  if(av){ var ph=member&&(member.photo||member.photoURL||member.customPhotoURL); av.innerHTML = ph ? ('<img src="'+ph+'" alt="">') : esc((member&&member.ini)||String(nm).charAt(0)||'？'); }
   try{ await window.fb.db.collection('companies').doc(COMPANY_ID).collection('userPrefs').doc(user.uid).set({memberId:member.id, memberEmail:(member.email||user.email||'')},{merge:true}); }catch(e){ console.warn('[MHS] userPrefs記録失敗',e); }
   await loadCalRemote();
   subscribeSchedule();
@@ -483,6 +494,7 @@ function toggleTheme(){
   const r=document.documentElement, cur=r.getAttribute('data-theme')||'dark', nx=cur==='dark'?'light':'dark';
   r.setAttribute('data-theme',nx); document.querySelector('.theme-toggle').textContent=nx==='dark'?'🌙':'☀️';
 }
+function toggleSidebar(){ document.body.classList.toggle('sb-collapsed'); }
 
 const LAYERS=[
   {key:'company',  name:'社内',     color:'var(--company)',  hex:'#64748b'},
